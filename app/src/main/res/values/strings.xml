@@ -11,7 +11,17 @@
     <string name="help_button">Help</string>
     <string name="back_button">Back</string>
     <string name="return_to_main_menu_button">Exit to Main Menu</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="default_profile_pic">Default Profile Picture</string>
+    <string name="tiger_profile_pic">Tiger</string>
+    <string name="android_robot_profile_pic">Android</string>
+    <string name="beach_profile_pic">Coastline</string>
+    <string name="desert_profile_pic">Desert</string>
+    <string name="giraffe_profile_pic">Giraffe</string>
+    <string name="lion_profile_pic">Lion</string>
+    <string name="mountain_profile_pic">Mountain</string>
+    <string name="ostrich_profile_pic">Ostrich</string>
+    <string name="tree_profile_pic">Sunset View</string>
+    <string name="zebra_profile_pic">Zebra</string>
 
 </resources>
