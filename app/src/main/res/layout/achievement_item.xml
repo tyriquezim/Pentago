@@ -18,7 +18,7 @@
             app:cardCornerRadius="50dp">
 
             <ImageView
-                android:id="@+id/achievement_icon"
+                android:id="@+id/achievement_imageview"
                 android:layout_width="100dp"
                 android:layout_height="100dp" />
 
@@ -31,6 +31,7 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/achievement_title_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/achievement_title"
@@ -38,6 +39,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/achievement_desc_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/achievement_desc"
