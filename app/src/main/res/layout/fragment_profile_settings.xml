@@ -182,10 +182,10 @@
         app:layout_constraintBottom_toTopOf="@id/player_2_profile_title"/>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/player_2_profile_linear_layout" />
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@android:color/darker_gray"
+    app:layout_constraintTop_toBottomOf="@id/player_2_profile_linear_layout" />
 
     <TextView
         android:id="@+id/profile_setting_help_desc"
@@ -204,6 +204,8 @@
         android:layout_height="wrap_content"
         android:text="@string/help_button"
         android:textStyle="bold"
+        app:icon="@drawable/baseline_help_24"
+        app:iconGravity="start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -213,6 +215,8 @@
         android:layout_height="wrap_content"
         android:text="@string/back_button"
         android:textStyle="bold"
+        app:icon="@drawable/baseline_arrow_back_24"
+        app:iconGravity="start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

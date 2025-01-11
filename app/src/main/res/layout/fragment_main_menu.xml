@@ -15,7 +15,9 @@
         android:textStyle="bold"
         android:text="@string/play_button"
         android:layout_margin="10dp"
-        android:textAllCaps="true"/>
+        android:textAllCaps="true"
+        app:icon="@drawable/baseline_play_arrow_24"
+        app:iconGravity="start"/>
 
     <Button
         android:id="@+id/profile_settings_button"
@@ -23,7 +25,9 @@
         android:layout_height="wrap_content"
         android:text="@string/profile_settings_button"
         android:layout_margin="10dp"
-        android:textAllCaps="true"/>
+        android:textAllCaps="true"
+        app:icon="@drawable/baseline_settings_24"
+        app:iconGravity="start"/>
 
     <Button
         android:id="@+id/gameplay_stats_button"
@@ -31,7 +35,19 @@
         android:layout_height="wrap_content"
         android:text="@string/gameplay_stats_button"
         android:layout_margin="10dp"
-        android:textAllCaps="true"/>
+        android:textAllCaps="true"
+        app:icon="@drawable/baseline_percent_24"
+        app:iconGravity="start"/>
+
+    <Button
+        android:id="@+id/achievements_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/achievements_button"
+        android:layout_margin="10dp"
+        android:textAllCaps="true"
+        app:icon="@drawable/baseline_stars_24"
+        app:iconGravity="start"/>
 
     <Button
         android:id="@+id/how_to_play_button"
@@ -39,6 +55,8 @@
         android:layout_height="wrap_content"
         android:text="@string/how_to_play_button"
         android:layout_margin="10dp"
-        android:textAllCaps="true"    />
+        android:textAllCaps="true"
+        app:icon="@drawable/baseline_question_mark_24"
+        app:iconGravity="start"/>
 
 </LinearLayout>

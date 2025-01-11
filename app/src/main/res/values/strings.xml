@@ -3,7 +3,9 @@
     <string name="play_button">Play!</string>
     <string name="profile_settings_button">Profile Settings</string>
     <string name="gameplay_stats_button">Gameplay Statistics</string>
+    <string name="achievements_button">Achievements</string>
     <string name="how_to_play_button">How to Play</string>
+
     <string name="player_1_title">Player 1</string>
     <string name="player_2_title">Player 2</string>
     <string name="ai_player_title">CPU</string>
