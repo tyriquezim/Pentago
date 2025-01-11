@@ -29,4 +29,10 @@
     <string name="versus_text">VS</string>
     <string name="player_turn_text">Player Turn Placeholder</string>
 
+    <string name="achievement_title">Achievement Title</string>
+    <string name="achievement_desc">Achievement Description</string>
+    <string name="achievement_date">Wed Jan 01 2025</string>
+    <string name="achievement_earned">Earned</string>
+    <string name="achievement_unearned">Unearned</string>
+
 </resources>
