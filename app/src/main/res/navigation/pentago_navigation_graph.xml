@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pentago_navigation_graph"
+    app:startDestination="@id/mainMenu">
+
+    <fragment
+        android:id="@+id/mainMenu"
+        android:name="com.android.personal.pentago.MainMenu"
+        android:label="MainMenu" >
+        <action
+            android:id="@+id/action_mainMenu_to_achievementProfileSelect"
+            app:destination="@id/achievementProfileSelect" />
+        <action
+            android:id="@+id/action_mainMenu_to_profileSettings"
+            app:destination="@id/profileSettings" />
+        <action
+            android:id="@+id/action_mainMenu_to_statsProfileSelect"
+            app:destination="@id/statsProfileSelect" />
+        <action
+            android:id="@+id/action_mainMenu_to_opponentSelect"
+            app:destination="@id/opponentSelect" />
+    </fragment>
+    <fragment
+        android:id="@+id/achievementProfileSelect"
+        android:name="com.android.personal.pentago.AchievementProfileSelect"
+        android:label="AchievementProfileSelect" >
+        <action
+            android:id="@+id/action_achievementProfileSelect_to_achievementList"
+            app:destination="@id/achievementList" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileSettings"
+        android:name="com.android.personal.pentago.ProfileSettings"
+        android:label="fragment_profile_settings"
+        tools:layout="@layout/fragment_profile_settings" >
+        <action
+            android:id="@+id/action_profileSettings_to_marbleColourSelect"
+            app:destination="@id/marbleColourSelect" />
+        <action
+            android:id="@+id/action_profileSettings_to_profileAvatarSelect"
+            app:destination="@id/profileAvatarSelect" />
+    </fragment>
+    <fragment
+        android:id="@+id/statsProfileSelect"
+        android:name="com.android.personal.pentago.StatsProfileSelect"
+        android:label="StatsProfileSelect" >
+        <action
+            android:id="@+id/action_statsProfileSelect_to_gamePlayStats"
+            app:destination="@id/gamePlayStats" />
+    </fragment>
+    <fragment
+        android:id="@+id/marbleColourSelect"
+        android:name="com.android.personal.pentago.MarbleColourSelect"
+        android:label="MarbleColourSelect" />
+    <fragment
+        android:id="@+id/achievementList"
+        android:name="com.android.personal.pentago.AchievementList"
+        android:label="fragment_achievement_list"
+        tools:layout="@layout/fragment_achievement_list" />
+    <fragment
+        android:id="@+id/gamePlayStats"
+        android:name="com.android.personal.pentago.GamePlayStats"
+        android:label="fragment_game_play_stats"
+        tools:layout="@layout/fragment_game_play_stats" />
+    <fragment
+        android:id="@+id/profileAvatarSelect"
+        android:name="com.android.personal.pentago.ProfileAvatarSelect"
+        android:label="fragment_marble_colour_select"
+        tools:layout="@layout/fragment_marble_colour_select" />
+    <fragment
+        android:id="@+id/opponentSelect"
+        android:name="com.android.personal.pentago.OpponentSelect"
+        android:label="fragment_opponent_select"
+        tools:layout="@layout/fragment_opponent_select" >
+        <action
+            android:id="@+id/action_opponentSelect_to_gamePlay"
+            app:destination="@id/gamePlay" />
+    </fragment>
+    <fragment
+        android:id="@+id/gamePlay"
+        android:name="com.android.personal.pentago.GamePlay"
+        android:label="fragment_game_play"
+        tools:layout="@layout/fragment_game_play" >
+        <action
+            android:id="@+id/action_gamePlay_to_mainMenu"
+            app:destination="@id/mainMenu" />
+    </fragment>
+</navigation>
