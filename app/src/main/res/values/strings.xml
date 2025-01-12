@@ -8,7 +8,7 @@
 
     <string name="player_1_title">Player 1</string>
     <string name="player_2_title">Player 2</string>
-    <string name="ai_player_title">CPU</string>
+    <string name="ai_player_title">AI Player</string>
     <string name="profile_settings_help">Tap on the profile icon or the marble colour icon to select a different profile picture or marble colour that will be displayed during the game.</string>
     <string name="help_button">Help</string>
     <string name="back_button">Back</string>
@@ -28,11 +28,24 @@
 
     <string name="versus_text">VS</string>
     <string name="player_turn_text">Player Turn Placeholder</string>
+    <string name="game_state_help">Information</string>
+    <string name="game_state_help_place_marble">Tap an empty cell to place your marble.</string>
+    <string name="game_state_help_rotate_subgrid">Tap the subgrid you would like to rotate.</string>
+    <string name="game_state_help_cw_aw">Tap one of the arrows to rotate the grid clockwise or anti-clockwise.</string>
 
     <string name="achievement_title">Achievement Title</string>
     <string name="achievement_desc">Achievement Description</string>
     <string name="achievement_date">Wed Jan 01 2025</string>
     <string name="achievement_earned">Earned</string>
     <string name="achievement_unearned">Unearned</string>
+
+    <string name="human_opponent_button">Player vs Player</string>
+    <string name="ai_opponent_button">Player vs AI</string>
+
+    <string name="opponent_select_text">Select Opponent Type</string>
+
+    <string name="achievement_select_text">Select a Player to View their Achievements</string>
+
+    <string name="stats_select_text">Select a Player to View their Gameplay Statistics</string>
 
 </resources>

@@ -71,13 +71,22 @@
         android:id="@+id/player_turn_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="@string/player_turn_text"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintBottom_toTopOf="@id/pentago_master_grid"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/player_1_match_name" />
+
+    <TextView
+        android:id="@+id/game_state_help_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/game_state_help"
+        app:layout_constraintTop_toBottomOf="@id/player_turn_textview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <GridLayout
         android:id="@+id/pentago_master_grid"
@@ -88,7 +97,7 @@
         app:layout_constraintBottom_toTopOf="@id/exit_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/player_turn_textview">
+        app:layout_constraintTop_toBottomOf="@id/game_state_help_textview">
 
         <GridLayout
             android:id="@+id/pentago_upper_left_subgrid"
