@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.android.personal.pentago.databinding.FragmentMainMenuBinding
 
 class MainMenuFragment : Fragment()
@@ -27,6 +28,31 @@ class MainMenuFragment : Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
+
+        //This is where the navigation destinations are set for the MainMenuFragment
+        binding.apply()
+        {
+            playButton.setOnClickListener()
+            {
+                findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToOpponentSelectFragment())
+            }
+            profileSettingsButton.setOnClickListener()
+            {
+                findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToProfileSettingsFragment())
+            }
+            gameplayStatsButton.setOnClickListener()
+            {
+                findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToStatsProfileSelectFragment())
+            }
+            achievementsButton.setOnClickListener()
+            {
+                findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToAchievementProfileSelectFragment())
+            }
+            howToPlayButton.setOnClickListener()
+            {
+                findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToHowToPlayFragment())
+            }
+        }
     }
 
     override fun onDestroyView()
