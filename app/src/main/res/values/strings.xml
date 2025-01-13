@@ -8,6 +8,8 @@
 
     <string name="player_1_title">Player 1</string>
     <string name="player_2_title">Player 2</string>
+    <string name="player_1_default_username">Player1</string>
+    <string name="player_2_default_username">Player2</string>
     <string name="ai_player_title">AI Player</string>
     <string name="profile_settings_help">Tap on the profile icon or the marble colour icon to select a different profile picture or marble colour that will be displayed during the game.</string>
     <string name="help_button">Help</string>

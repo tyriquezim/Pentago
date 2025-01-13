@@ -11,7 +11,7 @@ import com.android.personal.pentago.databinding.FragmentMainMenuBinding
 class MainMenuFragment : Fragment()
 {
     private var _binding: FragmentMainMenuBinding? = null
-    private val binding
+    private val binding: FragmentMainMenuBinding
         get() = checkNotNull(_binding) {"The FragmentMainMenuBinding instance could not be accessed because it is currently null."} //Nullable backing property
 
     override fun onCreate(savedInstanceState: Bundle?)
