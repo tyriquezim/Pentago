@@ -5,7 +5,7 @@ class Marble(val marbleOwnerUsername: String, val marbleColour: String)
     init
     {
         //Checks if the colour passed to the constructor is valid
-        if(marbleColour !in Marble.validColourList)
+        if(marbleColour !in Marble.validColourSet)
         {
             throw IllegalArgumentException("A valid colour must be passed to the Marble class constructor. Check the Marble class for the list of valid colours.")
         }
@@ -24,6 +24,6 @@ class Marble(val marbleOwnerUsername: String, val marbleColour: String)
         const val YELLOW_MARBLE = "Yellow"
         const val METALLIC_MARBLE = "Metallic"
 
-        val validColourList = listOf(BLACK_MARBLE, BLUE_MARBLE, GREEN_MARBLE, ORANGE_MARBLE, PINK_MARBLE, PURPLE_MARBLE, RED_MARBLE, YELLOW_MARBLE, METALLIC_MARBLE)
+        val validColourSet = setOf(BLACK_MARBLE, BLUE_MARBLE, GREEN_MARBLE, ORANGE_MARBLE, PINK_MARBLE, PURPLE_MARBLE, RED_MARBLE, YELLOW_MARBLE, METALLIC_MARBLE)
     }
 }
