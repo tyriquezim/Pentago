@@ -1,6 +1,6 @@
 package com.android.personal.pentago.model
 
-class Marble(val marbleOwnerUsername: String, val marbleColour: String)
+class Marble(val marbleOwner: PlayerProfile, val marbleColour: String)
 {
     init
     {
