@@ -37,4 +37,9 @@ class GamesPlayedAchievementObserver: AchievementObserver
     {
         return 10 * index
     }
+
+    override fun getAchievementList(): List<Achievement>
+    {
+        return gamesPlayedAchievementMap.values.toList()
+    }
 }

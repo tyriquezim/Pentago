@@ -5,10 +5,12 @@ import com.android.personal.pentago.model.PlayerProfile
 
 interface AchievementObserver
 {
-    fun updateAchievements(playerStats: PlayerProfile.PlayerStatistics): MutableList<Achievement>?
+    fun updateAchievements(playerStats: PlayerProfile.PlayerStatistics): MutableList<Achievement>
 
     //Each implementing class will use a forloop to decide the value its target statistic must climb between achievements. This function uses the forloop index to create the number that appears in the achievement description
     fun indexToStatisticFunction(index: Int): Number
+
+    fun getAchievementList(): List<Achievement>
 
     //Will be used to name achievement levels
     fun simpleRomanNumeralConverter(number: Int): String

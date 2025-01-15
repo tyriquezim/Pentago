@@ -17,6 +17,7 @@ class LoseAchievementObserver: AchievementObserver
             lossAchievementMap.put(indexToStatisticFunction(i).toInt(), lossAchievement)
         }
     }
+
     override fun updateAchievements(playerStats: PlayerProfile.PlayerStatistics):MutableList<Achievement>
     {
         val numLosses = playerStats.numLosses
@@ -36,5 +37,10 @@ class LoseAchievementObserver: AchievementObserver
     override fun indexToStatisticFunction(index: Int): Number
     {
         return 5 * index
+    }
+
+    override fun getAchievementList(): List<Achievement>
+    {
+        return lossAchievementMap.values.toList()
     }
 }

@@ -66,4 +66,9 @@ class WinPercentageAchievementObserver: AchievementObserver
     {
         return index
     }
+
+    override fun getAchievementList(): List<Achievement>
+    {
+        return winPercentageAchievementMap.values.toList()
+    }
 }

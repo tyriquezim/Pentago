@@ -37,4 +37,9 @@ class WinAchievementObserver: AchievementObserver
     {
         return 5 * index
     }
+
+    override fun getAchievementList(): List<Achievement>
+    {
+        return winAchievementMap.values.toList()
+    }
 }

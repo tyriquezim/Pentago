@@ -38,4 +38,9 @@ class MoveAchievementObserver: AchievementObserver
         return 20 * index
     }
 
+    override fun getAchievementList(): List<Achievement>
+    {
+        return movesAchievementMap.values.toList()
+    }
+
 }

@@ -38,4 +38,9 @@ class DrawAchievementObserver: AchievementObserver
     {
         return index
     }
+
+    override fun getAchievementList(): List<Achievement>
+    {
+        return drawAchievementMap.values.toList()
+    }
 }
