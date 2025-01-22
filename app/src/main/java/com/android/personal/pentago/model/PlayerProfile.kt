@@ -1,11 +1,14 @@
 package com.android.personal.pentago.model
 
 import androidx.collection.ArraySet
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.android.personal.pentago.observers.AchievementObserver
 
+@Entity
 class PlayerProfile(userName: String, profilePicture: String, marbleColour: String)
 {
-    var userName: String = userName
+    @PrimaryKey var userName: String = userName
         set(value)
         {
             //Enforcing username uniqueness when the username is being set/changed
