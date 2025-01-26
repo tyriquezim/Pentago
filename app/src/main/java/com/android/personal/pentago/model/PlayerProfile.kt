@@ -1,6 +1,7 @@
 package com.android.personal.pentago.model
 
 import androidx.collection.ArraySet
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.android.personal.pentago.observers.AchievementObserver
@@ -49,7 +50,7 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
             }
         }
 
-    private val playerStats: PlayerStatistics = PlayerStatistics() //Object that stores the statistics of the player
+    @Embedded val playerStats: PlayerStatistics = PlayerStatistics() //Object that stores the statistics of the player
 
     init
     {
@@ -116,7 +117,7 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
 
     fun getAchievements(): List<Achievement>
     {
-        return playerStats.achievements
+        return playerStats.getAchievements()
     }
 
     fun addAchievementObserver(observer: AchievementObserver)
@@ -139,18 +140,6 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
         var winPercentage: Double = 0.0
         var totalMovesMade: Int = 0
         val achievementObserversList = ArrayList<AchievementObserver>()
-        var achievements = ArrayList<Achievement>()
-            get()
-            {
-                val achievementList = ArrayList<Achievement>()
-
-                for(observer in achievementObserversList)
-                {
-                    achievementList.addAll(observer.getAchievementList())
-                }
-
-                return achievementList
-            }
 
         fun updateWins(): MutableList<Achievement>
         {
@@ -222,6 +211,18 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
         fun removeAchievementObserver(observer: AchievementObserver)
         {
             achievementObserversList.remove(observer)
+        }
+
+        fun getAchievements(): List<Achievement>
+        {
+            val achievementList = ArrayList<Achievement>()
+
+            for(observer in achievementObserversList)
+            {
+                achievementList.addAll(observer.getAchievementList())
+            }
+
+            return achievementList
         }
     }
 }

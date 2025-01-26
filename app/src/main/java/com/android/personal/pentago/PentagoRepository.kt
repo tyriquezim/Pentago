@@ -17,7 +17,7 @@ class PentagoRepository private constructor(context: Context)
 
     suspend fun deletePlayerProfile(userName: String) = database.playerProfileDAO().deletePlayerProfile(userName)
 
-    suspend fun updatePlayerProfile(userName: String, targetProfile: PlayerProfile) = database.playerProfileDAO().updatePlayerProfile(userName, targetProfile)
+    suspend fun updatePlayerProfile(targetUserName: String, modelProfile: PlayerProfile) = database.playerProfileDAO().updatePlayerProfile(targetUserName, modelProfile.userName, modelProfile.profilePicture, modelProfile.marbleColour)
 
     suspend fun getPlayerProfile(userName: String): PlayerProfile = database.playerProfileDAO().getPlayerProfile(userName)
 
