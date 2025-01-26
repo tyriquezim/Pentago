@@ -13,15 +13,15 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
         set(value)
         {
             //Enforcing username uniqueness when the username is being set/changed
-            if(value in userNameSet)
+            if(value in activeUserNameSet)
             {
                 throw IllegalArgumentException("This username has already been used. Please choose another.")
             }
             else
             {
-                userNameSet.remove(field) //Removes the current username from the list of taken usernames
+                activeUserNameSet.remove(field) //Removes the current username from the list of taken usernames
                 field = value //Note: Setting to the property directly will cause the custom setter to be set recursively
-                userNameSet.add(field) //Adds the new username to the list of taken usernames
+                activeUserNameSet.add(field) //Adds the new username to the list of taken usernames
             }
         }
     var profilePicture: String = profilePicture
@@ -40,17 +40,26 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
         set(value)
         {
             //Checks if the colour passed to the constructor is valid
-            if(marbleColour !in Marble.validColourSet)
+            if(value !in Marble.validColourSet)
             {
                 throw IllegalArgumentException("A valid marble colour string must be passed to the PlayerProfile class constructor. Check the Marble class for the list of valid colours.")
             }
             else
             {
-                field = value
+                if(value in activeMarbleColourSet)
+                {
+                    throw IllegalArgumentException("The marble colour selected is already in use!")
+                }
+                else
+                {
+                    activeUserNameSet.remove(field)
+                    field = value
+                    activeMarbleColourSet.add(field)
+                }
             }
         }
 
-    @Embedded val playerStats: PlayerStatistics = PlayerStatistics() //Object that stores the statistics of the player
+    var playerStats: PlayerStatistics = PlayerStatistics() //Object that stores the statistics of the player
 
     init
     {
@@ -65,13 +74,13 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
             throw IllegalArgumentException("A valid marble colour string must be passed to the PlayerProfile class constructor. Check the Marble class for the list of valid colours.")
         }
         //Enforces that usernames be unique
-        if(userName in userNameSet)
+        if(userName in activeUserNameSet)
         {
             throw IllegalArgumentException("This username has already been used. Please choose another.")
         }
         else
         {
-            userNameSet.add(userName)
+            activeUserNameSet.add(userName)
         }
     }
 
@@ -93,7 +102,8 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
         const val ZEBRA_PP = "Zebra"
 
         val validProfilePicSet = setOf(ANDROID_ROBOT_PP, BEACH_PP, DEFAULT_PP, DESERT_PP, GIRAFFE_PP, LION_PP, MOUNTAIN_PP, OSTRICH_PP, TIGER_PP, TREE_PP, ZEBRA_PP)
-        val userNameSet: MutableSet<String> = ArraySet()
+        val activeUserNameSet: MutableSet<String> = ArraySet()
+        val activeMarbleColourSet: MutableSet<String> = ArraySet() //For storing marble colours. It exists to ensure no 2 players have the same marble colour at the same time.
     }
     //Wrapper Functions for incrementing statistics
     fun updateWins(): MutableList<Achievement>
