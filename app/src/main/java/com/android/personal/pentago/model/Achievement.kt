@@ -1,12 +1,17 @@
 package com.android.personal.pentago.model
 
 import android.util.ArraySet
-import java.util.Date
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.serialization.Serializable
+import java.time.ZoneId
 
-class Achievement(achievementTitle: String, achievementDescription: String)
+@Serializable
+class Achievement(val achievementTitle: String, val achievementDescription: String)
 {
-    val achievementTitle: String = achievementTitle
-    val achievementDescription: String = achievementDescription
     var hasBeenEarned: Boolean = false
         set(value)
         {
@@ -16,9 +21,9 @@ class Achievement(achievementTitle: String, achievementDescription: String)
             }
             if(value)
             {
-                date = Date() //If the achievement has been earned, log the exact date and time
+                date = Clock.System.now().toLocalDateTime(TimeZone.of(ZoneId.systemDefault().toString())) //If the achievement has been earned, log the exact date and time.
             }
             field = value
         }
-    var date: Date? = null
+    var date: LocalDateTime? = null
 }

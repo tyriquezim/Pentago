@@ -9,60 +9,13 @@ import com.android.personal.pentago.observers.AchievementObserver
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.UUID
+import kotlinx.serialization.Serializable
 
 @Entity
-class PlayerProfile(userName: String, profilePicture: String, marbleColour: String)
+@Serializable
+class PlayerProfile(var userName: String, var profilePicture: String, var marbleColour: String)
 {
     @PrimaryKey var playerId: Int = totalPlayersCreated - 1 //Was made var for the sake of Android room
-    var userName: String = userName
-        set(value)
-        {
-            //Enforcing username uniqueness when the username is being set/changed
-            if(value in activeUserNameSet)
-            {
-                throw IllegalArgumentException("This username is already in use. Please choose another.")
-            }
-            else
-            {
-                activeUserNameSet.remove(field) //Removes the current username from the list of taken usernames
-                field = value //Note: Setting to the property directly will cause the custom setter to be set recursively
-                activeUserNameSet.add(field) //Adds the new username to the list of taken usernames
-            }
-        }
-    var profilePicture: String = profilePicture
-        set(value)
-        {
-            if(value !in validProfilePicSet)
-            {
-                throw IllegalArgumentException("A valid profile picture string must be passed to PlayerProfile class constructor. Check the PlayerProfile class for the list of valid profile picture strings.")
-            }
-            else
-            {
-                field = value
-            }
-        }
-    var marbleColour: String = marbleColour
-        set(value)
-        {
-            //Checks if the colour passed to the constructor is valid
-            if(value !in Marble.validColourSet)
-            {
-                throw IllegalArgumentException("A valid marble colour string must be passed to the PlayerProfile class constructor. Check the Marble class for the list of valid colours.")
-            }
-            else
-            {
-                if(value in activeMarbleColourSet)
-                {
-                    throw IllegalArgumentException("The marble colour selected is already in use!")
-                }
-                else
-                {
-                    activeUserNameSet.remove(field)
-                    field = value
-                    activeMarbleColourSet.add(field)
-                }
-            }
-        }
 
     var playerStats: PlayerStatistics = PlayerStatistics() //Object that stores the statistics of the player
 
@@ -82,13 +35,13 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
         {
             if(marbleColour in activeMarbleColourSet)
             {
-                throw IllegalArgumentException("The marble colour passed to the PlayerProfile class constructor is already in use. Choose another valid colour.")
+                //throw IllegalArgumentException("The marble colour, $marbleColour passed to the PlayerProfile class constructor is already in use. Choose another valid colour.")
             }
         }
         //Enforces that usernames be unique
         if(userName in activeUserNameSet)
         {
-            throw IllegalArgumentException("This username has already been used. Please choose another.")
+            //throw IllegalArgumentException("This username, $userName, has already been used. Please choose another.")
         }
         else
         {
@@ -101,11 +54,6 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
 
     companion object
     {
-        init
-        {
-            initialiseFields() //Ensures everything is up-to date on successive uses of the app
-        }
-
         private var totalPlayersCreated: Int = 0
         //Profile Picture constants
 
@@ -125,30 +73,6 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
         val validProfilePicSet = setOf(AI_ROBOT_PP, ANDROID_ROBOT_PP, BEACH_PP, DEFAULT_PP, DESERT_PP, GIRAFFE_PP, LION_PP, MOUNTAIN_PP, OSTRICH_PP, TIGER_PP, TREE_PP, ZEBRA_PP)
         private val activeUserNameSet: MutableSet<String> = ArraySet()
         private val activeMarbleColourSet: MutableSet<String> = ArraySet() //For storing marble colours. It exists to ensure no 2 players have the same marble colour at the same time.
-
-        //To initialise 'static' members as their value is reset each to the application is restarted but is essential for maintaining consistency
-        private fun initialiseFields()
-        {
-            GlobalScope.launch() // GlobalScope cause this cant be interrupted
-            {
-                val players = PentagoRepository.get().getPlayerProfiles()
-
-                if(players.isEmpty())
-                {
-                    totalPlayersCreated = 0
-                }
-                else
-                {
-                    totalPlayersCreated = players.last().playerId + 1 //This ensures the playerId is always unique even if a player is deleted. The list returned is always in ascending order by playerId
-
-                    for(player in players)
-                    {
-                        activeUserNameSet.add(player.userName)
-                        activeMarbleColourSet.add(player.marbleColour)
-                    }
-                }
-            }
-        }
     }
     //Wrapper Functions for incrementing statistics
     fun updateWins(): MutableList<Achievement>
@@ -186,6 +110,7 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
     }
 
     //Nested class that allows objects that store player statistics to be instantiated
+    @Serializable
     class PlayerStatistics
     {
         var numGamesPlayed: Int = 0

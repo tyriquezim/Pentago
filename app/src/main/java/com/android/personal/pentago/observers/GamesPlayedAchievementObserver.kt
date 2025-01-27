@@ -2,7 +2,11 @@ package com.android.personal.pentago.observers
 
 import com.android.personal.pentago.model.Achievement
 import com.android.personal.pentago.model.PlayerProfile
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
+@SerialName("GamesPlayedAchievementObserver")
 class GamesPlayedAchievementObserver: AchievementObserver
 {
     val gamesPlayedAchievementMap = HashMap<Int, Achievement>()

@@ -78,7 +78,6 @@ class PentagoApplication: Application()
             }
             else
             {
-                //Remove this once everything is working fine
                 PentagoRepository.get().deletePlayerProfile(0)
                 PentagoRepository.get().deletePlayerProfile(1)
                 PentagoRepository.get().deletePlayerProfile(2)
