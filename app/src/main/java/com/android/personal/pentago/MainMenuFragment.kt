@@ -22,6 +22,7 @@ class MainMenuFragment : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         _binding = FragmentMainMenuBinding.inflate(inflater, container, false) //The binding property is set in onCreateView to avoid a reference to view being held in memory when the fragments view may not be being displayed
+
         return binding.root
     }
 
@@ -58,6 +59,7 @@ class MainMenuFragment : Fragment()
     override fun onDestroyView()
     {
         super.onDestroyView()
+
         _binding = null //To remove the views references so that it can be freed from memory when the fragment is not visible
     }
 }

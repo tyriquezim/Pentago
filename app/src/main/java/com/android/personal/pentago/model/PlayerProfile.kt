@@ -4,18 +4,23 @@ import androidx.collection.ArraySet
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.android.personal.pentago.PentagoRepository
 import com.android.personal.pentago.observers.AchievementObserver
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.util.UUID
 
 @Entity
 class PlayerProfile(userName: String, profilePicture: String, marbleColour: String)
 {
-    @PrimaryKey var userName: String = userName
+    @PrimaryKey val playerId: Int = numberOfPlayers - 1
+    var userName: String = userName
         set(value)
         {
             //Enforcing username uniqueness when the username is being set/changed
             if(value in activeUserNameSet)
             {
-                throw IllegalArgumentException("This username has already been used. Please choose another.")
+                throw IllegalArgumentException("This username is already in use. Please choose another.")
             }
             else
             {
@@ -73,6 +78,13 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
         {
             throw IllegalArgumentException("A valid marble colour string must be passed to the PlayerProfile class constructor. Check the Marble class for the list of valid colours.")
         }
+        else
+        {
+            if(marbleColour in activeMarbleColourSet)
+            {
+                throw IllegalArgumentException("The marble colour passed to the PlayerProfile class constructor is already in use. Choose another valid colour.")
+            }
+        }
         //Enforces that usernames be unique
         if(userName in activeUserNameSet)
         {
@@ -82,10 +94,19 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
         {
             activeUserNameSet.add(userName)
         }
+
+        //Increments the total number of existing players
+        ++numberOfPlayers
     }
 
     companion object
     {
+        init
+        {
+            initialiseFields() //Ensures everything is up-to date on successive uses of the app
+        }
+
+        private var numberOfPlayers: Int = 0
         //Profile Picture constants
 
         const val AI_ROBOT_PP = "AI Bot"
@@ -102,8 +123,32 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
         const val ZEBRA_PP = "Zebra"
 
         val validProfilePicSet = setOf(ANDROID_ROBOT_PP, BEACH_PP, DEFAULT_PP, DESERT_PP, GIRAFFE_PP, LION_PP, MOUNTAIN_PP, OSTRICH_PP, TIGER_PP, TREE_PP, ZEBRA_PP)
-        val activeUserNameSet: MutableSet<String> = ArraySet()
-        val activeMarbleColourSet: MutableSet<String> = ArraySet() //For storing marble colours. It exists to ensure no 2 players have the same marble colour at the same time.
+        private val activeUserNameSet: MutableSet<String> = ArraySet()
+        private val activeMarbleColourSet: MutableSet<String> = ArraySet() //For storing marble colours. It exists to ensure no 2 players have the same marble colour at the same time.
+
+        //To initialise 'static' members as their value is reset each to the application is restarted but is essential for maintaining consistency
+        private fun initialiseFields()
+        {
+            GlobalScope.launch() // GlobalScope cause this cant be interrupted
+            {
+                val players = PentagoRepository.get().getPlayerProfiles()
+
+                if(players.isEmpty())
+                {
+                    numberOfPlayers = 0
+                }
+                else
+                {
+                    numberOfPlayers = players.size
+
+                    for(player in players)
+                    {
+                        activeUserNameSet.add(player.userName)
+                        activeMarbleColourSet.add(player.marbleColour)
+                    }
+                }
+            }
+        }
     }
     //Wrapper Functions for incrementing statistics
     fun updateWins(): MutableList<Achievement>

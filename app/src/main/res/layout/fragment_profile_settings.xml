@@ -54,6 +54,7 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
                 <EditText
+                    android:id="@+id/player_1_username_edit_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/player_1_title"/>
@@ -81,6 +82,7 @@
                     app:cardCornerRadius="20dp">
 
                     <ImageView
+                        android:id="@+id/player_1_marblecolour_image_view"
                         android:layout_width="40dp"
                         android:layout_height="40dp"/>
 
@@ -138,6 +140,7 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
                 <EditText
+                    android:id="@+id/player_2_username_edit_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/player_2_title"/>
@@ -165,6 +168,7 @@
                     app:cardCornerRadius="20dp">
 
                     <ImageView
+                        android:id="@+id/player_2_marblecolour_image_view"
                         android:layout_width="40dp"
                         android:layout_height="40dp"/>
 
