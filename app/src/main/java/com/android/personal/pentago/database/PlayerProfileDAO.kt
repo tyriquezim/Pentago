@@ -16,15 +16,15 @@ interface PlayerProfileDao
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertPlayerProfiles(playerProfiles: List<PlayerProfile>)
 
-    @Query("DELETE FROM PlayerProfile WHERE userName = :userName")
-    suspend fun deletePlayerProfile(userName: String)
+    @Query("DELETE FROM PlayerProfile WHERE playerId = :playerId")
+    suspend fun deletePlayerProfile(playerId: Int)
 
-    @Query("UPDATE PlayerProfile SET userName = :newUserName, profilePicture = :newProfilePicture, marbleColour = :newMarbleColour WHERE userName = :targetUserName")
-    suspend fun updatePlayerProfile(targetUserName: String, newUserName: String, newProfilePicture: String, newMarbleColour: String)
+    @Query("UPDATE PlayerProfile SET userName = :newUserName, profilePicture = :newProfilePicture, marbleColour = :newMarbleColour WHERE playerId = :targetPlayerId")
+    suspend fun updatePlayerProfile(targetPlayerId: Int, newUserName: String, newProfilePicture: String, newMarbleColour: String)
 
-    @Query("SELECT * FROM PlayerProfile WHERE userName = :userName")
-    suspend fun getPlayerProfile(userName: String): PlayerProfile
+    @Query("SELECT * FROM PlayerProfile WHERE playerId = :playerId")
+    suspend fun getPlayerProfile(playerId: Int): PlayerProfile
 
-    @Query("SELECT * FROM PlayerProfile")
+    @Query("SELECT * FROM PlayerProfile ORDER BY playerId ASC") //Always returns the results in ascending order by ID
     suspend fun getPlayerProfiles(): List<PlayerProfile>
 }

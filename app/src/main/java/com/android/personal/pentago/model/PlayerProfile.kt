@@ -13,7 +13,7 @@ import java.util.UUID
 @Entity
 class PlayerProfile(userName: String, profilePicture: String, marbleColour: String)
 {
-    @PrimaryKey val playerId: Int = numberOfPlayers - 1
+    @PrimaryKey var playerId: Int = totalPlayersCreated - 1 //Was made var for the sake of Android room
     var userName: String = userName
         set(value)
         {
@@ -96,7 +96,7 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
         }
 
         //Increments the total number of existing players
-        ++numberOfPlayers
+        ++totalPlayersCreated
     }
 
     companion object
@@ -106,7 +106,7 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
             initialiseFields() //Ensures everything is up-to date on successive uses of the app
         }
 
-        private var numberOfPlayers: Int = 0
+        private var totalPlayersCreated: Int = 0
         //Profile Picture constants
 
         const val AI_ROBOT_PP = "AI Bot"
@@ -122,7 +122,7 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
         const val TREE_PP = "Tree"
         const val ZEBRA_PP = "Zebra"
 
-        val validProfilePicSet = setOf(ANDROID_ROBOT_PP, BEACH_PP, DEFAULT_PP, DESERT_PP, GIRAFFE_PP, LION_PP, MOUNTAIN_PP, OSTRICH_PP, TIGER_PP, TREE_PP, ZEBRA_PP)
+        val validProfilePicSet = setOf(AI_ROBOT_PP, ANDROID_ROBOT_PP, BEACH_PP, DEFAULT_PP, DESERT_PP, GIRAFFE_PP, LION_PP, MOUNTAIN_PP, OSTRICH_PP, TIGER_PP, TREE_PP, ZEBRA_PP)
         private val activeUserNameSet: MutableSet<String> = ArraySet()
         private val activeMarbleColourSet: MutableSet<String> = ArraySet() //For storing marble colours. It exists to ensure no 2 players have the same marble colour at the same time.
 
@@ -135,11 +135,11 @@ class PlayerProfile(userName: String, profilePicture: String, marbleColour: Stri
 
                 if(players.isEmpty())
                 {
-                    numberOfPlayers = 0
+                    totalPlayersCreated = 0
                 }
                 else
                 {
-                    numberOfPlayers = players.size
+                    totalPlayersCreated = players.last().playerId + 1 //This ensures the playerId is always unique even if a player is deleted. The list returned is always in ascending order by playerId
 
                     for(player in players)
                     {

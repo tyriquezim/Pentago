@@ -76,6 +76,13 @@ class PentagoApplication: Application()
 
                 werePlayersInitialised = true
             }
+            else
+            {
+                //Remove this once everything is working fine
+                PentagoRepository.get().deletePlayerProfile(0)
+                PentagoRepository.get().deletePlayerProfile(1)
+                PentagoRepository.get().deletePlayerProfile(2)
+            }
         }
 
         return werePlayersInitialised
