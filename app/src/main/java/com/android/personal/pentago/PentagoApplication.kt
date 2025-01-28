@@ -14,6 +14,7 @@ import com.android.personal.pentago.observers.WinAchievementObserver
 import com.android.personal.pentago.observers.WinPercentageAchievementObserver
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.withLock
 
 //Class that is concerned with the application's lifecycle
 class PentagoApplication : Application()

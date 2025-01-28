@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.sync.*
 
 class ProfileSettingsFragment : Fragment()
 {
@@ -39,12 +40,7 @@ class ProfileSettingsFragment : Fragment()
         {
             binding.apply()
             {
-                var players: List<PlayerProfile> = ArrayList<PlayerProfile>()
-
-                while(players.isEmpty()) //I might have a flawed understanding of coroutines but this is to keep checking until it's confirmed the threads working in PentagoApplication GlobalScope have successfully inserted the base player objects (in case they haven't finished at this point)
-                {
-                    players = PentagoRepository.get().getPlayerProfiles() //Room returns an empty list if no results of the query are found. if found the loop will break
-                }
+                var players = PentagoRepository.get().getPlayerProfiles()
 
                 withContext(Dispatchers.IO)
                 {
