@@ -14,12 +14,13 @@ import com.android.personal.pentago.model.PlayerProfile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProfileSettingsFragment : Fragment()
 {
     private var _binding: FragmentProfileSettingsBinding? = null
     private val binding
-        get() = checkNotNull(_binding) {"The FragmentProfileSettingsBinding instance could not be accessed because it is currently null."}
+        get() = checkNotNull(_binding) { "The FragmentProfileSettingsBinding instance could not be accessed because it is currently null." }
     private lateinit var player1Profile: PlayerProfile
     private lateinit var player2Profile: PlayerProfile
     /* I decided to created parameters to avoid having to repeatedly access the database as that could be an expensive process. */
@@ -34,19 +35,23 @@ class ProfileSettingsFragment : Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
-
-        lifecycleScope.launch()
+        lifecycleScope.launch() //Lifecycle scope is used because this work can be stopped if the view is destroyed.
         {
             binding.apply()
             {
-                val players = PentagoRepository.get().getPlayerProfiles()
+                var players: List<PlayerProfile> = ArrayList<PlayerProfile>()
 
-                Dispatchers.IO
+                while(players.isEmpty()) //I might have a flawed understanding of coroutines but this is to keep checking until it's confirmed the threads working in PentagoApplication GlobalScope have successfully inserted the base player objects (in case they haven't finished at this point)
                 {
-                    player1Profile = players.get(0) //With the current implementation, player 1 will always be the user with lowest playerId (incase the app ever gets extended to allow multiple users
+                    players = PentagoRepository.get().getPlayerProfiles() //Room returns an empty list if no results of the query are found. if found the loop will break
+                }
+
+                withContext(Dispatchers.IO)
+                {
+                    player1Profile = players.get(0) //With the current implementation, player 1 will always be the user with lowest playerId (incase the app ever gets extended to allow multiple users)
                     player2Profile = players.get(1) //Player 2 will always be the second lowest playerId
                 }
-                Dispatchers.Main
+                withContext(Dispatchers.Main)
                 {
                     player1UsernameEditText.setText(player1Profile.userName)
                     player2UsernameEditText.setText(player2Profile.userName)
@@ -158,6 +163,11 @@ class ProfileSettingsFragment : Fragment()
     {
         super.onDestroyView()
 
+        GlobalScope.launch() //GlobalScope is used because the players must be updated with the info once the view is destroyed and cannot be interrupted
+        {
+            PentagoRepository.get().updatePlayerProfile(0, player1Profile)
+            PentagoRepository.get().updatePlayerProfile(1, player2Profile)
+        }
         _binding = null
     }
 }

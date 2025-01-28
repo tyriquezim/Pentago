@@ -11,20 +11,66 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 import kotlinx.serialization.Serializable
 
-@Entity
 @Serializable
-class PlayerProfile(var userName: String, var profilePicture: String, var marbleColour: String)
+@Entity
+class PlayerProfile
 {
-    @PrimaryKey var playerId: Int = totalPlayersCreated - 1 //Was made var for the sake of Android room
+    //Some properties that really should be declared with val are var so that ksp can stop complaining
+    //Decided to move the responsibility of ensuring userNames and marbleColours are unique to the ProfileSettings class as Serialisation and deserialisation was complicating it due to it needing the constructor.
+    @PrimaryKey var playerId: Int = totalPlayersCreated
+    var userName: String = ""
+        set(value)
+        {
+            activeUserNameSet.remove(field)
+            field = value
+            activeUserNameSet.add(field)
+        }
+    //Not placing them in the primary constructor allows me to have custom getters and setters while still having my class be Serialisable
+    var profilePicture: String = DEFAULT_PP
+        set(value)
+        {
+            if(value !in PlayerProfile.validProfilePicSet)
+            {
+                throw IllegalArgumentException("The Profile Picture, $value, is not a valid option. Check the PlayerProfile class companion object for a list of valid options.")
+            }
+            else
+            {
+                field = value
+            }
+        }
+    var marbleColour: String = "Blank"
+        set(value)
+        {
+            //Checks if the colour passed to the constructor is valid
+            if(value !in Marble.validColourSet)
+            {
+                throw IllegalArgumentException("The marble colour, $value, is not a valid marble colour. Check the Marble class for the list of valid colours.")
+            }
+            else
+            {
+                activeMarbleColourSet.remove(field)
+                field = value
+                activeMarbleColourSet.add(field)
+            }
+        }
+    @Embedded var playerStats: PlayerStatistics = PlayerStatistics() //Object that stores the statistics of the player
 
-    var playerStats: PlayerStatistics = PlayerStatistics() //Object that stores the statistics of the player
+    constructor(userName: String, profilePicture: String, marbleColour: String)
+    {
+        this.userName =  userName
+        this.profilePicture = profilePicture
+        this.marbleColour = marbleColour
 
-    init
+        //Increments the total number of existing players
+        ++totalPlayersCreated
+    }
+
+    /*init
     {
         //Checks whether a valid profile picture string has been passed
         if(profilePicture !in validProfilePicSet)
         {
-            throw IllegalArgumentException("A valid profile picture string must be passed to PlayerProfile class constructor. Check the PlayerProfile class for the list of valid profile picture strings.")
+            throw IllegalArgumentException("${profilePicture} is not a valid profile picture string for a PlayerProfile object. A valid profile picture string must be passed to PlayerProfile class constructor. Check the PlayerProfile class for the list of valid profile picture strings.")
         }
         //Checks if the colour passed to the constructor is valid
         if(marbleColour !in Marble.validColourSet)
@@ -35,22 +81,21 @@ class PlayerProfile(var userName: String, var profilePicture: String, var marble
         {
             if(marbleColour in activeMarbleColourSet)
             {
-                //throw IllegalArgumentException("The marble colour, $marbleColour passed to the PlayerProfile class constructor is already in use. Choose another valid colour.")
+                throw IllegalArgumentException("The marble colour, $marbleColour passed to the PlayerProfile class constructor is already in use. Choose another valid colour.")
             }
         }
         //Enforces that usernames be unique
         if(userName in activeUserNameSet)
         {
-            //throw IllegalArgumentException("This username, $userName, has already been used. Please choose another.")
+            throw IllegalArgumentException("This username, $userName, is already in use. Please choose another.")
         }
         else
         {
             activeUserNameSet.add(userName)
         }
 
-        //Increments the total number of existing players
-        ++totalPlayersCreated
-    }
+
+    }*/
 
     companion object
     {
@@ -119,7 +164,7 @@ class PlayerProfile(var userName: String, var profilePicture: String, var marble
         var numDraws: Int = 0
         var winPercentage: Double = 0.0
         var totalMovesMade: Int = 0
-        val achievementObserversList = ArrayList<AchievementObserver>()
+        var achievementObserversList = ArrayList<AchievementObserver>()
 
         fun updateWins(): MutableList<Achievement>
         {

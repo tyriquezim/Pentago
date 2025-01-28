@@ -2,25 +2,38 @@ package com.android.personal.pentago.database
 
 import androidx.room.TypeConverter
 import com.android.personal.pentago.model.PlayerProfile
+import com.android.personal.pentago.observers.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.serialization.json.*
+import kotlinx.serialization.modules.*
 
 class PentagoTypeConverters
 {
-    @TypeConverter
-    fun convertPlayerStatisticsToJson(playerStats: PlayerProfile.PlayerStatistics): String
+    val serialiserModule = SerializersModule()
     {
-        val gsonObject = Gson()
+        polymorphic(AchievementObserver::class)
+        {
+            subclass(DrawAchievementObserver::class)
+            subclass(GamesPlayedAchievementObserver::class)
+            subclass(LoseAchievementObserver::class)
+            subclass(MoveAchievementObserver::class)
+            subclass(WinAchievementObserver::class)
+            subclass(WinPercentageAchievementObserver::class)
+        }
+    }
 
-        return gsonObject.toJson(playerStats)
+    val jsonFormat = Json() {serializersModule = serialiserModule}
+
+    @TypeConverter
+    fun convertAchievementObserverListToJson(observerList: ArrayList<AchievementObserver>): String
+    {
+        return jsonFormat.encodeToString(observerList)
     }
 
     @TypeConverter
-    fun convertJsonToPlayerStatistics(listJson: String): PlayerProfile.PlayerStatistics
+    fun convertJsonToAchievementObserverList(jsonString: String): ArrayList<AchievementObserver>
     {
-        val gsonObject = Gson()
-        val type = object: TypeToken<PlayerProfile.PlayerStatistics>() {}.type
-
-        return gsonObject.fromJson(listJson, type)
+        return jsonFormat.decodeFromString(jsonString)
     }
 }

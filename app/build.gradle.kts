@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("org.jetbrains.kotlin.plugin.serialization") version("1.8.0")
-    id("org.jetbrains.kotlin.kapt") version("1.6.10")
+    id("com.google.devtools.ksp") version("2.0.20-1.0.24")
+    id("org.jetbrains.kotlin.kapt") version("2.1.10")
     id("androidx.navigation.safeargs.kotlin") version("2.5.0")
 }
 
@@ -52,7 +53,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-    kapt("androidx.room:room-compiler:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.navigation:navigation-fragment-ktx:2.8.5")
