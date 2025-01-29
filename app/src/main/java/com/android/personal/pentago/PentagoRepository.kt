@@ -23,6 +23,12 @@ class PentagoRepository private constructor(context: Context)
 
     suspend fun updatePlayerProfile(playerId: Int, modelProfile: PlayerProfile) = database.playerProfileDAO().updatePlayerProfile(playerId, modelProfile.userName, modelProfile.profilePicture, modelProfile.marbleColour)
 
+    suspend fun updatePlayerProfileUserName(playerId: Int, newUserName: String) = database.playerProfileDAO().updatePlayerProfileUserName(playerId, newUserName)
+
+    suspend fun updatePlayerProfileProfilePicture(playerId: Int, newProfilePicture: String) = database.playerProfileDAO().updatePlayerProfileProfilePicture(playerId, newProfilePicture)
+
+    suspend fun updatePlayerProfileMarbleColour(playerId: Int, newMarbleColour: String) = database.playerProfileDAO().updatePlayerProfileMarbleColour(playerId, newMarbleColour)
+
     suspend fun getPlayerProfile(playerId: Int): PlayerProfile = database.playerProfileDAO().getPlayerProfile(playerId)
 
     suspend fun getPlayerProfiles(): List<PlayerProfile> = database.playerProfileDAO().getPlayerProfiles()

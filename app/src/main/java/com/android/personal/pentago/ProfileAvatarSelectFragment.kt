@@ -22,7 +22,7 @@ class ProfileAvatarSelectFragment : Fragment()
     private var _binding: FragmentProfileAvatarSelectBinding? = null
     private val binding: FragmentProfileAvatarSelectBinding
         get() = checkNotNull(_binding) { "The FragmentProfileAvatarSelectBinding instance could not be accessed because it is currently null." }
-    private val args: ProfileAvatarSelectFragmentArgs by navArgs()
+    private val arguments: ProfileAvatarSelectFragmentArgs by navArgs()
     private lateinit var playerProfile: PlayerProfile
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -43,7 +43,10 @@ class ProfileAvatarSelectFragment : Fragment()
         {
             withContext(Dispatchers.IO)
             {
-                playerProfile = PentagoRepository.get().getPlayerProfile(args.playerProfileId)
+                PentagoRepository.get().mutex.withLock()
+                {
+                    playerProfile = PentagoRepository.get().getPlayerProfile(arguments.playerProfileId)
+                }
             }
 
             binding.apply()
@@ -59,7 +62,7 @@ class ProfileAvatarSelectFragment : Fragment()
                                 PentagoRepository.get().mutex.withLock()
                                 {
                                     playerProfile.profilePicture = PlayerProfile.DEFAULT_PP
-                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                    PentagoRepository.get().updatePlayerProfileProfilePicture(playerProfile.playerId, playerProfile.profilePicture)
                                 }
                             }
                         }
@@ -74,7 +77,7 @@ class ProfileAvatarSelectFragment : Fragment()
                                 PentagoRepository.get().mutex.withLock()
                                 {
                                     playerProfile.profilePicture = PlayerProfile.ANDROID_ROBOT_PP
-                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                    PentagoRepository.get().updatePlayerProfileProfilePicture(playerProfile.playerId, playerProfile.profilePicture)
                                 }
                             }
                         }
@@ -89,7 +92,7 @@ class ProfileAvatarSelectFragment : Fragment()
                                 PentagoRepository.get().mutex.withLock()
                                 {
                                     playerProfile.profilePicture = PlayerProfile.TREE_PP
-                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                    PentagoRepository.get().updatePlayerProfileProfilePicture(playerProfile.playerId, playerProfile.profilePicture)
                                 }
                             }
                         }
@@ -104,7 +107,7 @@ class ProfileAvatarSelectFragment : Fragment()
                                 PentagoRepository.get().mutex.withLock()
                                 {
                                     playerProfile.profilePicture = PlayerProfile.BEACH_PP
-                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                    PentagoRepository.get().updatePlayerProfileProfilePicture(playerProfile.playerId, playerProfile.profilePicture)
                                 }
                             }
                         }
@@ -119,7 +122,7 @@ class ProfileAvatarSelectFragment : Fragment()
                                 PentagoRepository.get().mutex.withLock()
                                 {
                                     playerProfile.profilePicture = PlayerProfile.MOUNTAIN_PP
-                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                    PentagoRepository.get().updatePlayerProfileProfilePicture(playerProfile.playerId, playerProfile.profilePicture)
                                 }
                             }
                         }
@@ -134,7 +137,7 @@ class ProfileAvatarSelectFragment : Fragment()
                                 PentagoRepository.get().mutex.withLock()
                                 {
                                     playerProfile.profilePicture = PlayerProfile.DESERT_PP
-                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                    PentagoRepository.get().updatePlayerProfileProfilePicture(playerProfile.playerId, playerProfile.profilePicture)
                                 }
                             }
                         }
@@ -149,7 +152,7 @@ class ProfileAvatarSelectFragment : Fragment()
                                 PentagoRepository.get().mutex.withLock()
                                 {
                                     playerProfile.profilePicture = PlayerProfile.LION_PP
-                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                    PentagoRepository.get().updatePlayerProfileProfilePicture(playerProfile.playerId, playerProfile.profilePicture)
                                 }
                             }
                         }
@@ -164,7 +167,7 @@ class ProfileAvatarSelectFragment : Fragment()
                                 PentagoRepository.get().mutex.withLock()
                                 {
                                     playerProfile.profilePicture = PlayerProfile.TIGER_PP
-                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                    PentagoRepository.get().updatePlayerProfileProfilePicture(playerProfile.playerId, playerProfile.profilePicture)
                                 }
                             }
                         }
@@ -179,7 +182,7 @@ class ProfileAvatarSelectFragment : Fragment()
                                 PentagoRepository.get().mutex.withLock()
                                 {
                                     playerProfile.profilePicture = PlayerProfile.GIRAFFE_PP
-                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                    PentagoRepository.get().updatePlayerProfileProfilePicture(playerProfile.playerId, playerProfile.profilePicture)
                                 }
                             }
                         }
@@ -194,7 +197,7 @@ class ProfileAvatarSelectFragment : Fragment()
                                 PentagoRepository.get().mutex.withLock()
                                 {
                                     playerProfile.profilePicture = PlayerProfile.OSTRICH_PP
-                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                    PentagoRepository.get().updatePlayerProfileProfilePicture(playerProfile.playerId, playerProfile.profilePicture)
                                 }
                             }
                         }
@@ -209,10 +212,14 @@ class ProfileAvatarSelectFragment : Fragment()
                                 PentagoRepository.get().mutex.withLock()
                                 {
                                     playerProfile.profilePicture = PlayerProfile.ZEBRA_PP
-                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                    PentagoRepository.get().updatePlayerProfileProfilePicture(playerProfile.playerId, playerProfile.profilePicture)
                                 }
                             }
                         }
+                        findNavController().popBackStack()
+                    }
+                    backButton.setOnClickListener()
+                    {
                         findNavController().popBackStack()
                     }
                 }
@@ -223,7 +230,6 @@ class ProfileAvatarSelectFragment : Fragment()
     override fun onDestroyView()
     {
         super.onDestroyView()
-        Log.d("onDestroy PASF1", "onDestroy Called1")
 
         _binding = null
     }

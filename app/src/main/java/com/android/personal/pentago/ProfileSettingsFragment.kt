@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -26,6 +27,7 @@ class ProfileSettingsFragment : Fragment()
     private var _binding: FragmentProfileSettingsBinding? = null
     private val binding
         get() = checkNotNull(_binding) { "The FragmentProfileSettingsBinding instance could not be accessed because it is currently null." }
+    private val profileSettingsViewModel: ProfileSettingsViewModel by viewModels()
     private lateinit var player1Profile: PlayerProfile
     private lateinit var player2Profile: PlayerProfile
     /* I decided to created parameters to avoid having to repeatedly access the database as that could be an expensive process. */
@@ -59,16 +61,27 @@ class ProfileSettingsFragment : Fragment()
             {
                 binding.apply()
                 {
-                    player1UsernameEditText.setText(player1Profile.userName)
-                    player2UsernameEditText.setText(player2Profile.userName)
+                    if(!profileSettingsViewModel.hasP1UsernameStringInitialised()) //The first time the Fragment is created
+                    {
+                        profileSettingsViewModel.currentPlayer1UsernameString = player1Profile.userName
+                    }
+                    if(!profileSettingsViewModel.hasP2UsernameStringInitialised()) //For the first time the fragment is created
+                    {
+                        profileSettingsViewModel.currentPlayer2UsernameString = player2Profile.userName
+                    }
+
+                    player1UsernameEditText.setText(profileSettingsViewModel.currentPlayer1UsernameString)
+                    player2UsernameEditText.setText(profileSettingsViewModel.currentPlayer2UsernameString)
 
                     player1UsernameEditText.doOnTextChanged()
                     { text, _, _, _ ->
                         player1Profile.userName = text.toString() //The underscores are unneeded parameters
+                        profileSettingsViewModel.currentPlayer1UsernameString = text.toString()
                     }
                     player2UsernameEditText.doOnTextChanged()
                     { text, _, _, _ ->
                         player2Profile.userName = text.toString()
+                        profileSettingsViewModel.currentPlayer2UsernameString = text.toString()
                     }
                     player1AvatarImageView.setOnClickListener()
                     {
@@ -92,6 +105,23 @@ class ProfileSettingsFragment : Fragment()
                     }
                     backButton.setOnClickListener()
                     {
+                        player1Profile.userName = player1UsernameEditText.text.toString()
+                        player2Profile.userName = player2UsernameEditText.text.toString()
+
+                        GlobalScope.launch()
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    PentagoRepository.get().updatePlayerProfileUserName(player1Profile.playerId, player1Profile.userName)
+                                }
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    PentagoRepository.get().updatePlayerProfileUserName(player2Profile.playerId, player2Profile.userName)
+                                }
+                            }
+                        }
                         findNavController().popBackStack()
                     }
 

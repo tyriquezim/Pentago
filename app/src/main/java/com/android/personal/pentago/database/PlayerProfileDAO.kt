@@ -22,6 +22,15 @@ interface PlayerProfileDao
     @Query("UPDATE PlayerProfile SET userName = :newUserName, profilePicture = :newProfilePicture, marbleColour = :newMarbleColour WHERE playerId = :targetPlayerId")
     suspend fun updatePlayerProfile(targetPlayerId: Int, newUserName: String, newProfilePicture: String, newMarbleColour: String)
 
+    @Query("UPDATE PLayerProfile SET userName = :newUsernAME WHERE playerId = :targetPlayerId")
+    suspend fun updatePlayerProfileUserName(targetPlayerId: Int, newUsernAME: String)
+
+    @Query("UPDATE PLayerProfile SET profilePicture = :newProfilePicture WHERE playerId = :targetPlayerId")
+    suspend fun updatePlayerProfileProfilePicture(targetPlayerId: Int, newProfilePicture: String)
+
+    @Query("UPDATE PLayerProfile SET marbleColour = :newMarbleColour WHERE playerId = :targetPlayerId")
+    suspend fun updatePlayerProfileMarbleColour(targetPlayerId: Int, newMarbleColour: String)
+
     @Query("SELECT * FROM PlayerProfile WHERE playerId = :playerId")
     suspend fun getPlayerProfile(playerId: Int): PlayerProfile
 
