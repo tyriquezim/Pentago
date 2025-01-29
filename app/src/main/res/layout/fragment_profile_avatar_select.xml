@@ -28,6 +28,7 @@
                     app:cardCornerRadius="50dp">
 
                     <ImageView
+                        android:id="@+id/default_avatar_image_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/default_avatar" />
@@ -62,6 +63,7 @@
                     app:cardCornerRadius="50dp">
 
                     <ImageView
+                        android:id="@+id/android_robot_avatar_image_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/android_robot_profile_picture" />
@@ -96,6 +98,7 @@
                     app:cardCornerRadius="50dp">
 
                     <ImageView
+                        android:id="@+id/sunset_avatar_image_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/tree_profile_picture" />
@@ -130,6 +133,7 @@
                     app:cardCornerRadius="50dp">
 
                     <ImageView
+                        android:id="@+id/coastline_avatar_image_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/beach_profile_picture" />
@@ -164,6 +168,7 @@
                     app:cardCornerRadius="50dp">
 
                     <ImageView
+                        android:id="@+id/mountain_avatar_image_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/mountain_profile_picture" />
@@ -198,6 +203,7 @@
                     app:cardCornerRadius="50dp">
 
                     <ImageView
+                        android:id="@+id/desert_avatar_image_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/desert_profile_picture" />
@@ -232,6 +238,7 @@
                     app:cardCornerRadius="50dp">
 
                     <ImageView
+                        android:id="@+id/lion_avatar_image_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/lion_profile_picture" />
@@ -266,6 +273,7 @@
                     app:cardCornerRadius="50dp">
 
                     <ImageView
+                        android:id="@+id/tiger_avatar_image_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/tiger_profile_picture" />
@@ -300,6 +308,7 @@
                     app:cardCornerRadius="50dp">
 
                     <ImageView
+                        android:id="@+id/giraffe_avatar_image_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/giraffe_profile_picture" />
@@ -334,6 +343,7 @@
                     app:cardCornerRadius="50dp">
 
                     <ImageView
+                        android:id="@+id/ostrich_avatar_image_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/ostrich_profile_picture" />
@@ -368,6 +378,7 @@
                     app:cardCornerRadius="50dp">
 
                     <ImageView
+                        android:id="@+id/zebra_avatar_image_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/zebra_profile_picture" />

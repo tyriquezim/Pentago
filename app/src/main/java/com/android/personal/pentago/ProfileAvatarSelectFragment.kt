@@ -1,22 +1,230 @@
 package com.android.personal.pentago
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.android.personal.pentago.databinding.FragmentProfileAvatarSelectBinding
+import com.android.personal.pentago.model.PlayerProfile
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 
 class ProfileAvatarSelectFragment : Fragment()
 {
+    private var _binding: FragmentProfileAvatarSelectBinding? = null
+    private val binding: FragmentProfileAvatarSelectBinding
+        get() = checkNotNull(_binding) { "The FragmentProfileAvatarSelectBinding instance could not be accessed because it is currently null." }
+    private val args: ProfileAvatarSelectFragmentArgs by navArgs()
+    private lateinit var playerProfile: PlayerProfile
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_avatar_select, container, false)
+        _binding = FragmentProfileAvatarSelectBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
+    {
+        super.onViewCreated(view, savedInstanceState)
+        lifecycleScope.launch()
+        {
+            withContext(Dispatchers.IO)
+            {
+                playerProfile = PentagoRepository.get().getPlayerProfile(args.playerProfileId)
+            }
+
+            binding.apply()
+            {
+                withContext(Dispatchers.Main)
+                {
+                    defaultAvatarImageView.setOnClickListener()
+                    {
+                        GlobalScope.launch() //Nested coroutine since i want the database to updated
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    playerProfile.profilePicture = PlayerProfile.DEFAULT_PP
+                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                }
+                            }
+                        }
+                        findNavController().popBackStack()
+                    }
+                    androidRobotAvatarImageView.setOnClickListener()
+                    {
+                        GlobalScope.launch()
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    playerProfile.profilePicture = PlayerProfile.ANDROID_ROBOT_PP
+                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                }
+                            }
+                        }
+                        findNavController().popBackStack()
+                    }
+                    sunsetAvatarImageView.setOnClickListener()
+                    {
+                        GlobalScope.launch()
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    playerProfile.profilePicture = PlayerProfile.TREE_PP
+                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                }
+                            }
+                        }
+                        findNavController().popBackStack()
+                    }
+                    coastlineAvatarImageView.setOnClickListener()
+                    {
+                        GlobalScope.launch()
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    playerProfile.profilePicture = PlayerProfile.BEACH_PP
+                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                }
+                            }
+                        }
+                        findNavController().popBackStack()
+                    }
+                    mountainAvatarImageView.setOnClickListener()
+                    {
+                        GlobalScope.launch()
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    playerProfile.profilePicture = PlayerProfile.MOUNTAIN_PP
+                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                }
+                            }
+                        }
+                        findNavController().popBackStack()
+                    }
+                    desertAvatarImageView.setOnClickListener()
+                    {
+                        GlobalScope.launch()
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    playerProfile.profilePicture = PlayerProfile.DESERT_PP
+                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                }
+                            }
+                        }
+                        findNavController().popBackStack()
+                    }
+                    lionAvatarImageView.setOnClickListener()
+                    {
+                        GlobalScope.launch()
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    playerProfile.profilePicture = PlayerProfile.LION_PP
+                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                }
+                            }
+                        }
+                        findNavController().popBackStack()
+                    }
+                    tigerAvatarImageView.setOnClickListener()
+                    {
+                        GlobalScope.launch()
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    playerProfile.profilePicture = PlayerProfile.TIGER_PP
+                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                }
+                            }
+                        }
+                        findNavController().popBackStack()
+                    }
+                    giraffeAvatarImageView.setOnClickListener()
+                    {
+                        GlobalScope.launch()
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    playerProfile.profilePicture = PlayerProfile.GIRAFFE_PP
+                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                }
+                            }
+                        }
+                        findNavController().popBackStack()
+                    }
+                    ostrichAvatarImageView.setOnClickListener()
+                    {
+                        GlobalScope.launch()
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    playerProfile.profilePicture = PlayerProfile.OSTRICH_PP
+                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                }
+                            }
+                        }
+                        findNavController().popBackStack()
+                    }
+                    zebraAvatarImageView.setOnClickListener()
+                    {
+                        GlobalScope.launch()
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                PentagoRepository.get().mutex.withLock()
+                                {
+                                    playerProfile.profilePicture = PlayerProfile.ZEBRA_PP
+                                    PentagoRepository.get().updatePlayerProfile(playerProfile.playerId, playerProfile)
+                                }
+                            }
+                        }
+                        findNavController().popBackStack()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView()
+    {
+        super.onDestroyView()
+        Log.d("onDestroy PASF1", "onDestroy Called1")
+
+        _binding = null
     }
 }

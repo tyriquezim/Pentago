@@ -13,62 +13,19 @@ class PentagoRepository private constructor(context: Context)
 {
     private val database: PlayerProfileDatabase = Room.databaseBuilder(context.applicationContext, PlayerProfileDatabase::class.java, DATABASE_NAME).build()
 
-    private val mutex: Mutex = Mutex() //Mutex lock for accessing the database as different coroutines will perform operations on the database. Outside class don't need to worry about preventing race conditions for database access
+    val mutex: Mutex = Mutex() //Mutex lock for accessing the database as different coroutines will perform operations on the database. Must be used manually to do work involving the database
 
-    suspend fun insertPlayerProfile(playerProfile: PlayerProfile)
-    {
-        mutex.withLock()
-        {
-            database.playerProfileDAO().insertPlayerProfile(playerProfile)
-        }
-    }
+    suspend fun insertPlayerProfile(playerProfile: PlayerProfile) = database.playerProfileDAO().insertPlayerProfile(playerProfile)
 
-    suspend fun insertPlayerProfiles(playerProfiles: List<PlayerProfile>)
-    {
-        mutex.withLock()
-        {
-            database.playerProfileDAO().insertPlayerProfiles(playerProfiles)
-        }
-    }
+    suspend fun insertPlayerProfiles(playerProfiles: List<PlayerProfile>) = database.playerProfileDAO().insertPlayerProfiles(playerProfiles)
 
-    suspend fun deletePlayerProfile(playerId: Int)
-    {
-        mutex.withLock()
-        {
-            database.playerProfileDAO().deletePlayerProfile(playerId)
-        }
-    }
+    suspend fun deletePlayerProfile(playerId: Int) = database.playerProfileDAO().deletePlayerProfile(playerId)
 
-    suspend fun updatePlayerProfile(playerId: Int, modelProfile: PlayerProfile)
-    {
-        mutex.withLock()
-        {
-            database.playerProfileDAO().updatePlayerProfile(playerId, modelProfile.userName, modelProfile.profilePicture, modelProfile.marbleColour)
-        }
-    }
+    suspend fun updatePlayerProfile(playerId: Int, modelProfile: PlayerProfile) = database.playerProfileDAO().updatePlayerProfile(playerId, modelProfile.userName, modelProfile.profilePicture, modelProfile.marbleColour)
 
-    suspend fun getPlayerProfile(playerId: Int): PlayerProfile
-    {
-        lateinit var desiredPlayerProfile: PlayerProfile
+    suspend fun getPlayerProfile(playerId: Int): PlayerProfile = database.playerProfileDAO().getPlayerProfile(playerId)
 
-        mutex.withLock()
-        {
-            desiredPlayerProfile = database.playerProfileDAO().getPlayerProfile(playerId)
-        }
-
-        return  desiredPlayerProfile
-    }
-
-    suspend fun getPlayerProfiles(): List<PlayerProfile>
-    {
-        lateinit var playerProfileList: List<PlayerProfile>
-        mutex.withLock()
-        {
-            playerProfileList = database.playerProfileDAO().getPlayerProfiles()
-        }
-
-        return playerProfileList
-    }
+    suspend fun getPlayerProfiles(): List<PlayerProfile> = database.playerProfileDAO().getPlayerProfiles()
 
     companion object
     {

@@ -8,7 +8,7 @@
         android:id="@+id/mainMenuFragment"
         android:name="com.android.personal.pentago.MainMenuFragment"
         android:label="fragment_main_menu"
-        tools:layout="@layout/fragment_main_menu" >
+        tools:layout="@layout/fragment_main_menu">
         <action
             android:id="@+id/action_mainMenuFragment_to_opponentSelectFragment"
             app:destination="@id/opponentSelectFragment" />
@@ -32,7 +32,7 @@
         android:id="@+id/opponentSelectFragment"
         android:name="com.android.personal.pentago.OpponentSelectFragment"
         android:label="fragment_opponent_select"
-        tools:layout="@layout/fragment_opponent_select" >
+        tools:layout="@layout/fragment_opponent_select">
         <action
             android:id="@+id/action_opponentSelectFragment_to_gamePlayFragment"
             app:destination="@id/gamePlayFragment" />
@@ -41,7 +41,7 @@
         android:id="@+id/gamePlayFragment"
         android:name="com.android.personal.pentago.GamePlayFragment"
         android:label="fragment_game_play"
-        tools:layout="@layout/fragment_game_play" >
+        tools:layout="@layout/fragment_game_play">
         <action
             android:id="@+id/action_gamePlayFragment_to_mainMenuFragment"
             app:destination="@id/mainMenuFragment" />
@@ -50,7 +50,7 @@
         android:id="@+id/profileSettingsFragment"
         android:name="com.android.personal.pentago.ProfileSettingsFragment"
         android:label="fragment_profile_settings"
-        tools:layout="@layout/fragment_profile_settings" >
+        tools:layout="@layout/fragment_profile_settings">
         <action
             android:id="@+id/action_profileSettingsFragment_to_profileAvatarSelectFragment"
             app:destination="@id/profileAvatarSelectFragment" />
@@ -62,17 +62,25 @@
         android:id="@+id/profileAvatarSelectFragment"
         android:name="com.android.personal.pentago.ProfileAvatarSelectFragment"
         android:label="fragment_profile_avatar_select"
-        tools:layout="@layout/fragment_profile_avatar_select" />
+        tools:layout="@layout/fragment_profile_avatar_select" >
+        <argument
+            android:name="playerProfileId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/marbleColourSelectFragment"
         android:name="com.android.personal.pentago.MarbleColourSelectFragment"
         android:label="fragment_marble_colour_select"
-        tools:layout="@layout/fragment_marble_colour_select" />
+        tools:layout="@layout/fragment_marble_colour_select" >
+        <argument
+            android:name="playerProfileId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/statsProfileSelectFragment"
         android:name="com.android.personal.pentago.StatsProfileSelectFragment"
         android:label="fragment_stats_profile_select"
-        tools:layout="@layout/fragment_stats_profile_select" >
+        tools:layout="@layout/fragment_stats_profile_select">
         <action
             android:id="@+id/action_statsProfileSelectFragment_to_gamePlayStatsFragment"
             app:destination="@id/gamePlayStatsFragment" />
@@ -86,7 +94,7 @@
         android:id="@+id/achievementProfileSelectFragment"
         android:name="com.android.personal.pentago.AchievementProfileSelectFragment"
         android:label="fragment_achievement_profile_select"
-        tools:layout="@layout/fragment_achievement_profile_select" >
+        tools:layout="@layout/fragment_achievement_profile_select">
         <action
             android:id="@+id/action_achievementProfileSelectFragment_to_achievementListFragment2"
             app:destination="@id/achievementListFragment2" />

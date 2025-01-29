@@ -1,12 +1,16 @@
 package com.android.personal.pentago
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.android.personal.pentago.databinding.FragmentProfileSettingsBinding
 import com.android.personal.pentago.model.Marble
@@ -14,8 +18,8 @@ import com.android.personal.pentago.model.PlayerProfile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.sync.*
 
 class ProfileSettingsFragment : Fragment()
 {
@@ -36,18 +40,24 @@ class ProfileSettingsFragment : Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch() //Lifecycle scope is used because this work can be stopped if the view is destroyed.
-        {
-            binding.apply()
-            {
-                var players = PentagoRepository.get().getPlayerProfiles()
+        Log.d("onViewCreated PSF1", "onViewCreated was called")
 
-                withContext(Dispatchers.IO)
+        viewLifecycleOwner.lifecycleScope.launch() //Lifecycle scope is used because this work can be stopped if the view is destroyed.
+        {
+            withContext(Dispatchers.IO)
+            {
+                PentagoRepository.get().mutex.withLock()
                 {
+                    var players = PentagoRepository.get().getPlayerProfiles()
                     player1Profile = players.get(0) //With the current implementation, player 1 will always be the user with lowest playerId (incase the app ever gets extended to allow multiple users)
                     player2Profile = players.get(1) //Player 2 will always be the second lowest playerId
+                    Log.d("onViewCreated PSF2", "Retrieved both player profiles")
                 }
-                withContext(Dispatchers.Main)
+            }
+
+            withContext(Dispatchers.Main)
+            {
+                binding.apply()
                 {
                     player1UsernameEditText.setText(player1Profile.userName)
                     player2UsernameEditText.setText(player2Profile.userName)
@@ -62,19 +72,19 @@ class ProfileSettingsFragment : Fragment()
                     }
                     player1AvatarImageView.setOnClickListener()
                     {
-                        findNavController().navigate(ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToProfileAvatarSelectFragment())
+                        findNavController().navigate(ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToProfileAvatarSelectFragment(player1Profile.playerId))
                     }
                     player2AvatarImageView.setOnClickListener()
                     {
-                        findNavController().navigate(ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToProfileAvatarSelectFragment())
+                        findNavController().navigate(ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToProfileAvatarSelectFragment(player2Profile.playerId))
                     }
                     player1MarbleColourImageView.setOnClickListener()
                     {
-                        findNavController().navigate(ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToMarbleColourSelectFragment())
+                        findNavController().navigate(ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToMarbleColourSelectFragment(player1Profile.playerId))
                     }
                     player2MarbleColourImageView.setOnClickListener()
                     {
-                        findNavController().navigate(ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToMarbleColourSelectFragment())
+                        findNavController().navigate(ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToMarbleColourSelectFragment(player2Profile.playerId))
                     }
                     helpButton.setOnClickListener()
                     {
@@ -159,11 +169,6 @@ class ProfileSettingsFragment : Fragment()
     {
         super.onDestroyView()
 
-        GlobalScope.launch() //GlobalScope is used because the players must be updated with the info once the view is destroyed and cannot be interrupted
-        {
-            PentagoRepository.get().updatePlayerProfile(0, player1Profile)
-            PentagoRepository.get().updatePlayerProfile(1, player2Profile)
-        }
         _binding = null
     }
 }
