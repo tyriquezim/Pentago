@@ -168,62 +168,50 @@ class PlayerProfile
 
         fun updateWins(): MutableList<Achievement>
         {
-            val earnedAchievementList = ArrayList<Achievement>()
+            lateinit var earnedAchievementList: ArrayList<Achievement>
 
             ++numGamesPlayed
             ++numWins
             winPercentage = (numWins.toDouble() / numGamesPlayed.toDouble()) * 100
 
-            for(observer in achievementObserversList)
-            {
-                earnedAchievementList.addAll(observer.updateAchievements(this))
-            }
+            earnedAchievementList = notifyAchievementObservers()
 
             return earnedAchievementList
         }
 
         fun updateLosses(): MutableList<Achievement>
         {
-            val earnedAchievementList = ArrayList<Achievement>()
+            lateinit var earnedAchievementList: ArrayList<Achievement>
 
             ++numGamesPlayed
             ++numLosses
             winPercentage = (numWins.toDouble() / numGamesPlayed.toDouble()) * 100
 
-            for(observer in achievementObserversList)
-            {
-                earnedAchievementList.addAll(observer.updateAchievements(this))
-            }
+            earnedAchievementList = notifyAchievementObservers()
 
             return earnedAchievementList
         }
 
         fun updateDraws(): MutableList<Achievement>
         {
-            val earnedAchievementList = ArrayList<Achievement>()
+            lateinit var earnedAchievementList: ArrayList<Achievement>
 
             ++numGamesPlayed
             ++numDraws
             winPercentage = (numWins.toDouble() / numGamesPlayed.toDouble()) * 100
 
-            for(observer in achievementObserversList)
-            {
-                earnedAchievementList.addAll(observer.updateAchievements(this))
-            }
+            earnedAchievementList = notifyAchievementObservers()
 
             return earnedAchievementList
         }
 
         fun updateTotalMovesMade(): MutableList<Achievement>
         {
-            val earnedAchievementList = ArrayList<Achievement>()
+            lateinit var earnedAchievementList: ArrayList<Achievement>
 
             ++totalMovesMade
 
-            for(observer in achievementObserversList)
-            {
-                earnedAchievementList.addAll(observer.updateAchievements(this))
-            }
+            earnedAchievementList = notifyAchievementObservers()
 
             return earnedAchievementList
         }
@@ -248,6 +236,18 @@ class PlayerProfile
             }
 
             return achievementList
+        }
+
+        private fun notifyAchievementObservers(): ArrayList<Achievement>
+        {
+            val earnedAchievementList = ArrayList<Achievement>()
+
+            for(observer in achievementObserversList)
+            {
+                earnedAchievementList.addAll(observer.updateAchievements(this))
+            }
+
+            return earnedAchievementList
         }
     }
 }

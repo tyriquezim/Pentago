@@ -89,7 +89,11 @@
         android:id="@+id/gamePlayStatsFragment"
         android:name="com.android.personal.pentago.GamePlayStatsFragment"
         android:label="fragment_game_play_stats"
-        tools:layout="@layout/fragment_game_play_stats" />
+        tools:layout="@layout/fragment_game_play_stats" >
+        <argument
+            android:name="playerProfileId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/achievementProfileSelectFragment"
         android:name="com.android.personal.pentago.AchievementProfileSelectFragment"
@@ -103,7 +107,9 @@
         android:id="@+id/achievementListFragment2"
         android:name="com.android.personal.pentago.AchievementListFragment"
         android:label="fragment_achievement_list"
-        tools:layout="@layout/fragment_achievement_list" />
+        tools:layout="@layout/fragment_achievement_list" >
+        <argument android:name="playerProfileId" />
+    </fragment>
     <fragment
         android:id="@+id/howToPlayFragment"
         android:name="com.android.personal.pentago.HowToPlayFragment"

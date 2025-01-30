@@ -33,11 +33,11 @@ class AchievementProfileSelectFragment : Fragment()
         {
             player1Button.setOnClickListener()
             {
-                findNavController().navigate(AchievementProfileSelectFragmentDirections.actionAchievementProfileSelectFragmentToAchievementListFragment2())
+                //findNavController().navigate(AchievementProfileSelectFragmentDirections.actionAchievementProfileSelectFragmentToAchievementListFragment2())
             }
             player2Button.setOnClickListener()
             {
-                findNavController().navigate(AchievementProfileSelectFragmentDirections.actionAchievementProfileSelectFragmentToAchievementListFragment2())
+                //findNavController().navigate(AchievementProfileSelectFragmentDirections.actionAchievementProfileSelectFragmentToAchievementListFragment2())
             }
             backButton.setOnClickListener()
             {
