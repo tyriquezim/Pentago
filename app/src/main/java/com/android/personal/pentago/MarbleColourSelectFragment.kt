@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -57,123 +58,179 @@ class MarbleColourSelectFragment : Fragment()
                 {
                     redMarbleImageView.setOnClickListener()
                     {
-                        GlobalScope.launch()
+                        if(Marble.RED_MARBLE in PlayerProfile.activeMarbleColourSet)
                         {
-                            withContext(Dispatchers.IO)
+                            Toast.makeText(context, "Cannot update marble colour! Marble colours must be unique among players.", Toast.LENGTH_LONG).show()
+                        }
+                        else
+                        {
+                            GlobalScope.launch()
                             {
-                                PentagoRepository.get().mutex.withLock()
+                                withContext(Dispatchers.IO)
                                 {
-                                    playerProfile.marbleColour = Marble.RED_MARBLE
-                                    PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    PentagoRepository.get().mutex.withLock()
+                                    {
+                                        playerProfile.marbleColour = Marble.RED_MARBLE
+                                        PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    }
                                 }
                             }
+                            findNavController().popBackStack()
                         }
-                        findNavController().popBackStack()
                     }
                     orangeMarbleImageView.setOnClickListener()
                     {
-                        GlobalScope.launch()
+                        if(Marble.ORANGE_MARBLE in PlayerProfile.activeMarbleColourSet)
                         {
-                            withContext(Dispatchers.IO)
+                            Toast.makeText(context, "Cannot update marble colour! Marble colours must be unique among players.", Toast.LENGTH_LONG).show()
+                        }
+                        else
+                        {
+                            GlobalScope.launch()
                             {
-                                PentagoRepository.get().mutex.withLock()
+                                withContext(Dispatchers.IO)
                                 {
-                                    playerProfile.marbleColour = Marble.ORANGE_MARBLE
-                                    PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    PentagoRepository.get().mutex.withLock()
+                                    {
+                                        playerProfile.marbleColour = Marble.ORANGE_MARBLE
+                                        PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    }
                                 }
                             }
+                            findNavController().popBackStack()
                         }
-                        findNavController().popBackStack()
                     }
                     yellowMarbleImageView.setOnClickListener()
                     {
-                        GlobalScope.launch()
+                        if(Marble.YELLOW_MARBLE in PlayerProfile.activeMarbleColourSet)
                         {
-                            withContext(Dispatchers.IO)
+                            Toast.makeText(context, "Cannot update marble colour! Marble colours must be unique among players.", Toast.LENGTH_LONG).show()
+                        }
+                        else
+                        {
+                            GlobalScope.launch()
                             {
-                                PentagoRepository.get().mutex.withLock()
+                                withContext(Dispatchers.IO)
                                 {
-                                    playerProfile.marbleColour = Marble.YELLOW_MARBLE
-                                    PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    PentagoRepository.get().mutex.withLock()
+                                    {
+                                        playerProfile.marbleColour = Marble.YELLOW_MARBLE
+                                        PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    }
                                 }
                             }
+                            findNavController().popBackStack()
                         }
-                        findNavController().popBackStack()
                     }
                     greenMarbleImageView.setOnClickListener()
                     {
-                        GlobalScope.launch()
+                        if(Marble.GREEN_MARBLE in PlayerProfile.activeMarbleColourSet)
                         {
-                            withContext(Dispatchers.IO)
+                            Toast.makeText(context, "Cannot update marble colour! Marble colours must be unique among players.", Toast.LENGTH_LONG).show()
+                        }
+                        else
+                        {
+                            GlobalScope.launch()
                             {
-                                PentagoRepository.get().mutex.withLock()
+                                withContext(Dispatchers.IO)
                                 {
-                                    playerProfile.marbleColour = Marble.GREEN_MARBLE
-                                    PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    PentagoRepository.get().mutex.withLock()
+                                    {
+                                        playerProfile.marbleColour = Marble.GREEN_MARBLE
+                                        PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    }
                                 }
                             }
+                            findNavController().popBackStack()
                         }
-                        findNavController().popBackStack()
                     }
                     blueMarbleImageView.setOnClickListener()
                     {
-                        GlobalScope.launch()
+                        if(Marble.BLUE_MARBLE in PlayerProfile.activeMarbleColourSet)
                         {
-                            withContext(Dispatchers.IO)
+                            Toast.makeText(context, "Cannot update marble colour! Marble colours must be unique among players.", Toast.LENGTH_LONG).show()
+                        }
+                        else
+                        {
+                            GlobalScope.launch()
                             {
-                                PentagoRepository.get().mutex.withLock()
+                                withContext(Dispatchers.IO)
                                 {
-                                    playerProfile.marbleColour = Marble.BLUE_MARBLE
-                                    PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    PentagoRepository.get().mutex.withLock()
+                                    {
+                                        playerProfile.marbleColour = Marble.BLUE_MARBLE
+                                        PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    }
                                 }
                             }
+                            findNavController().popBackStack()
                         }
-                        findNavController().popBackStack()
                     }
                     purpleMarbleImageView.setOnClickListener()
                     {
-                        GlobalScope.launch()
+                        if(Marble.PURPLE_MARBLE in PlayerProfile.activeMarbleColourSet)
                         {
-                            withContext(Dispatchers.IO)
+                            Toast.makeText(context, "Cannot update marble colour! Marble colours must be unique among players.", Toast.LENGTH_LONG).show()
+                        }
+                        else
+                        {
+                            GlobalScope.launch()
                             {
-                                PentagoRepository.get().mutex.withLock()
+                                withContext(Dispatchers.IO)
                                 {
-                                    playerProfile.marbleColour = Marble.PURPLE_MARBLE
-                                    PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    PentagoRepository.get().mutex.withLock()
+                                    {
+                                        playerProfile.marbleColour = Marble.PURPLE_MARBLE
+                                        PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    }
                                 }
                             }
+                            findNavController().popBackStack()
                         }
-                        findNavController().popBackStack()
                     }
                     pinkMarbleImageView.setOnClickListener()
                     {
-                        GlobalScope.launch()
+                        if(Marble.PINK_MARBLE in PlayerProfile.activeMarbleColourSet)
                         {
-                            withContext(Dispatchers.IO)
+                            Toast.makeText(context, "Cannot update marble colour! Marble colours must be unique among players.", Toast.LENGTH_LONG).show()
+                        }
+                        else
+                        {
+                            GlobalScope.launch()
                             {
-                                PentagoRepository.get().mutex.withLock()
+                                withContext(Dispatchers.IO)
                                 {
-                                    playerProfile.marbleColour = Marble.PINK_MARBLE
-                                    PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    PentagoRepository.get().mutex.withLock()
+                                    {
+                                        playerProfile.marbleColour = Marble.PINK_MARBLE
+                                        PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    }
                                 }
                             }
+                            findNavController().popBackStack()
                         }
-                        findNavController().popBackStack()
                     }
                     blackMarbleImageView.setOnClickListener()
                     {
-                        GlobalScope.launch()
+                        if(Marble.BLACK_MARBLE in PlayerProfile.activeMarbleColourSet)
                         {
-                            withContext(Dispatchers.IO)
+                            Toast.makeText(context, "Cannot update marble colour! Marble colours must be unique among players.", Toast.LENGTH_LONG).show()
+                        }
+                        else
+                        {
+                            GlobalScope.launch()
                             {
-                                PentagoRepository.get().mutex.withLock()
+                                withContext(Dispatchers.IO)
                                 {
-                                    playerProfile.marbleColour = Marble.BLACK_MARBLE
-                                    PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    PentagoRepository.get().mutex.withLock()
+                                    {
+                                        playerProfile.marbleColour = Marble.BLACK_MARBLE
+                                        PentagoRepository.get().updatePlayerProfileMarbleColour(playerProfile.playerId, playerProfile.marbleColour)
+                                    }
                                 }
                             }
+                            findNavController().popBackStack()
                         }
-                        findNavController().popBackStack()
                     }
                     backButton.setOnClickListener()
                     {

@@ -116,8 +116,8 @@ class PlayerProfile
         const val ZEBRA_PP = "Zebra"
 
         val validProfilePicSet = setOf(AI_ROBOT_PP, ANDROID_ROBOT_PP, BEACH_PP, DEFAULT_PP, DESERT_PP, GIRAFFE_PP, LION_PP, MOUNTAIN_PP, OSTRICH_PP, TIGER_PP, TREE_PP, ZEBRA_PP)
-        private val activeUserNameSet: MutableSet<String> = ArraySet()
-        private val activeMarbleColourSet: MutableSet<String> = ArraySet() //For storing marble colours. It exists to ensure no 2 players have the same marble colour at the same time.
+        val activeUserNameSet: MutableSet<String> = ArraySet()
+        val activeMarbleColourSet: MutableSet<String> = ArraySet() //For storing marble colours. It exists to ensure no 2 players have the same marble colour at the same time.
     }
     //Wrapper Functions for incrementing statistics
     fun updateWins(): MutableList<Achievement>

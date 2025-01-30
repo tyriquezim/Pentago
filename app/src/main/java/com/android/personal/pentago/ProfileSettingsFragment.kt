@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -74,13 +75,11 @@ class ProfileSettingsFragment : Fragment()
                     player2UsernameEditText.setText(profileSettingsViewModel.currentPlayer2UsernameString)
 
                     player1UsernameEditText.doOnTextChanged()
-                    { text, _, _, _ ->
-                        player1Profile.userName = text.toString() //The underscores are unneeded parameters
+                    { text, _, _, _ -> //The underscores are unneeded parameters
                         profileSettingsViewModel.currentPlayer1UsernameString = text.toString()
                     }
                     player2UsernameEditText.doOnTextChanged()
                     { text, _, _, _ ->
-                        player2Profile.userName = text.toString()
                         profileSettingsViewModel.currentPlayer2UsernameString = text.toString()
                     }
                     player1AvatarImageView.setOnClickListener()
@@ -105,24 +104,30 @@ class ProfileSettingsFragment : Fragment()
                     }
                     backButton.setOnClickListener()
                     {
-                        player1Profile.userName = player1UsernameEditText.text.toString()
-                        player2Profile.userName = player2UsernameEditText.text.toString()
-
-                        GlobalScope.launch()
+                        if((player1UsernameEditText.text.toString() in PlayerProfile.activeUserNameSet && player1UsernameEditText.text.toString() != player1Profile.userName) || (player2UsernameEditText.text.toString() in PlayerProfile.activeUserNameSet && player2UsernameEditText.text.toString() != player2Profile.userName)) //Uniqueness Check. Makes sure that database is only updated if the username isnt actively being used and also isnt the username that was there initially (cause even if a username wasnt changed, it will be in the active set)
                         {
-                            withContext(Dispatchers.IO)
+                            Toast.makeText(context, "Cannot update usernames! Player usernames must be unique.", Toast.LENGTH_LONG).show()
+                        }
+                        else
+                        {
+                            GlobalScope.launch()
                             {
-                                PentagoRepository.get().mutex.withLock()
+                                withContext(Dispatchers.IO)
                                 {
-                                    PentagoRepository.get().updatePlayerProfileUserName(player1Profile.playerId, player1Profile.userName)
-                                }
-                                PentagoRepository.get().mutex.withLock()
-                                {
-                                    PentagoRepository.get().updatePlayerProfileUserName(player2Profile.playerId, player2Profile.userName)
+                                    PentagoRepository.get().mutex.withLock()
+                                    {
+                                        player1Profile.userName = player1UsernameEditText.text.toString()
+                                        PentagoRepository.get().updatePlayerProfileUserName(player1Profile.playerId, player1Profile.userName)
+                                    }
+                                    PentagoRepository.get().mutex.withLock()
+                                    {
+                                        player2Profile.userName = player2UsernameEditText.text.toString()
+                                        PentagoRepository.get().updatePlayerProfileUserName(player2Profile.playerId, player2Profile.userName)
+                                    }
                                 }
                             }
+                            findNavController().popBackStack()
                         }
-                        findNavController().popBackStack()
                     }
 
                     //Setting the Player Avatars
