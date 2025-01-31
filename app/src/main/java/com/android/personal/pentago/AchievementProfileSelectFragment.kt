@@ -5,8 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.android.personal.pentago.databinding.FragmentAchievementProfileSelectBinding
+import com.android.personal.pentago.model.PlayerProfile
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 
 class AchievementProfileSelectFragment : Fragment()
 {
@@ -29,19 +35,34 @@ class AchievementProfileSelectFragment : Fragment()
     {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.apply()
+        viewLifecycleOwner.lifecycleScope.launch()
         {
-            player1Button.setOnClickListener()
+            lateinit var players: List<PlayerProfile>
+
+            withContext(Dispatchers.IO)
             {
-                //findNavController().navigate(AchievementProfileSelectFragmentDirections.actionAchievementProfileSelectFragmentToAchievementListFragment2())
+                PentagoRepository.get().mutex.withLock()
+                {
+                    players = PentagoRepository.get().getPlayerProfiles()
+                }
             }
-            player2Button.setOnClickListener()
+            withContext(Dispatchers.Main)
             {
-                //findNavController().navigate(AchievementProfileSelectFragmentDirections.actionAchievementProfileSelectFragmentToAchievementListFragment2())
-            }
-            backButton.setOnClickListener()
-            {
-                findNavController().popBackStack()
+                binding.apply()
+                {
+                    player1Button.setOnClickListener()
+                    {
+                        findNavController().navigate(AchievementProfileSelectFragmentDirections.actionAchievementProfileSelectFragmentToAchievementListFragment2(players.get(0).playerId))
+                    }
+                    player2Button.setOnClickListener()
+                    {
+                        findNavController().navigate(AchievementProfileSelectFragmentDirections.actionAchievementProfileSelectFragmentToAchievementListFragment2(players.get(1).playerId))
+                    }
+                    backButton.setOnClickListener()
+                    {
+                        findNavController().popBackStack()
+                    }
+                }
             }
         }
     }

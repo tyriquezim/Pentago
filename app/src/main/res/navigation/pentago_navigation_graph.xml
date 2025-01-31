@@ -108,7 +108,8 @@
         android:name="com.android.personal.pentago.AchievementListFragment"
         android:label="fragment_achievement_list"
         tools:layout="@layout/fragment_achievement_list" >
-        <argument android:name="playerProfileId" />
+        <argument android:name="playerProfileId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/howToPlayFragment"

@@ -50,7 +50,17 @@
     <string name="achievement_select_text">Select a Player to View their Achievements</string>
 
     <string name="stats_select_text">Select a Player to View their Gameplay Statistics</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="game_description">Pentago is a board game in which two players place marbles on any one of four 3x3 grids on a board. In order to win, a player must have five of their own marbles aligned vertically, horizontally or diagonally across the four grids. After each marble placement, the player must rotate any one of the four grids either clockwise or anti-clockwise, adding an additional layer of strategy in comparison to similar games like Connect Four.</string>
+
+    <string name="rule_one">1. A player must rotate a grid after placing a marble (exception being in the case described by rule 3).</string>
+
+    <string name="rule_two">2. The game is won when a player manages to align five of their own marbles vertically, horizontally or diagonally.</string>
+
+    <string name="rule_three">3. If a player places a marble and it results in an alignment of five for themselves, they are not required to rotate a grid and thus become the winner of the match.</string>
+
+    <string name="rule_four">4. A game results in a draw if a the entire board gets filled without any of the players managing to align five of their marbles in a row.</string>
+
+    <string name="rule_five">5. A game also results in a draw if, after a rotation, both players obtain an alignment of five of their own marbles simultaneously.</string>
 
 </resources>
