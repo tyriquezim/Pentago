@@ -232,7 +232,10 @@ class PlayerProfile
 
             for(observer in achievementObserversList)
             {
-                achievementList.addAll(observer.getAchievementList())
+                achievementList.addAll(observer.getAchievementList().sortedBy()
+                {
+                    it.achievementTitle //Sorts the lists by title
+                })
             }
 
             return achievementList

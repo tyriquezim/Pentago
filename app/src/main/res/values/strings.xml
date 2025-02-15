@@ -63,4 +63,6 @@
 
     <string name="rule_five">5. A game also results in a draw if, after a rotation, both players obtain an alignment of five of their own marbles simultaneously.</string>
 
+    <string name="checkbox_earned_text">Earned</string>
+
 </resources>
