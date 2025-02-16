@@ -14,6 +14,7 @@ class Marble(val marbleOwner: PlayerProfile, val marbleColour: String)
     //Storing class constants that will be used to create disc objects
     companion object
     {
+
         const val BLACK_MARBLE = "Black"
         const val BLUE_MARBLE = "Blue"
         const val GREEN_MARBLE = "Green"
