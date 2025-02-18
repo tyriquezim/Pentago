@@ -8,22 +8,35 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
     var pentagoBoard = Array<Array<Marble?>>(6) { Array<Marble?>(6) { null } } //6x6 array which represent the pentago board
     private var currentTurnPlayerProfile = player1Profile
 
-    fun playTurn(rowNumber: Int, columnNumber: Int, subgridString: String, rotationString: String)
+    fun playTurn(rowNumber: Int, columnNumber: Int, subgridString: String, rotationString: String): PlayerProfile?
     {
-        placeMarble(rowNumber, columnNumber)
-        rotateSubGrid(subgridString, rotationString)
+        var winner: PlayerProfile?
 
-        if(currentTurnPlayerProfile.equals(player1Profile))
+        placeMarble(rowNumber, columnNumber)
+        winner = checkWinCondition(rowNumber, columnNumber)
+
+        if(winner == null) //Since a player can win without having to rotate if the condition is met before rotation
         {
-            currentTurnPlayerProfile = player2Profile
+            rotateSubGrid(subgridString, rotationString)
+            winner = checkWinCondition(rowNumber, columnNumber)
         }
-        else
+
+        if(winner == null) //If there still is no winner then update the turns
         {
-            if(currentTurnPlayerProfile.equals(player2Profile))
+            if(currentTurnPlayerProfile.equals(player1Profile))
             {
-                currentTurnPlayerProfile = player1Profile
+                currentTurnPlayerProfile = player2Profile
+            }
+            else
+            {
+                if(currentTurnPlayerProfile.equals(player2Profile))
+                {
+                    currentTurnPlayerProfile = player1Profile
+                }
             }
         }
+
+        return winner
     }
 
     private fun aiPlayTurn()
@@ -372,6 +385,286 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
             }
         }
     }
+
+    private fun checkWinCondition(rowNumber: Int, columnNumber: Int): PlayerProfile?
+    {
+        var winner: PlayerProfile? = null
+
+        winner = checkHorizontal(rowNumber, columnNumber)
+
+        if(winner == null)
+        {
+            winner = checkVertical(rowNumber, columnNumber)
+
+            if(winner == null)
+            {
+                winner = checkLeadingDiagonal(rowNumber, columnNumber)
+
+                if(winner == null)
+                {
+                    winner = checkAntiDiagonal(rowNumber, columnNumber)
+                }
+            }
+        }
+
+        return winner
+    }
+
+    private fun checkHorizontal(rowNumber: Int, columnNumber: Int): PlayerProfile?
+    {
+        //This function checks for a win condition horizontally. It performs the check from Left to right
+        val currentMarble = checkNotNull(pentagoBoard[rowNumber][columnNumber]) {"Error! Null was found where a marble was supposed to exist. The function must only take the row and column number of recently placed marbles."} //There SHOULD be a marble here because this function requires arguments of the recently placed marble
+        var currentHorizontalMarble: Marble? = null
+        var winner: PlayerProfile? = null
+        var count: Int = 1
+        var checkRowIndex = rowNumber
+        var checkColumnIndex = columnNumber
+        var rightDeadEnd = false
+        var foundLeftmostMarble = false
+        var nextLeftHorizontalMarble: Marble?
+
+        //Finds the rightmost marble belonging to the current player
+        while(!foundLeftmostMarble)
+        {
+            if(checkColumnIndex != 0) //If the current marbles column number is not at the very left already (prevent IndexOutOfBounds)
+            {
+                nextLeftHorizontalMarble = pentagoBoard[checkRowIndex][checkColumnIndex - 1]
+
+                if(nextLeftHorizontalMarble != null && nextLeftHorizontalMarble.marbleOwner == currentMarble.marbleOwner)
+                {
+                    --checkColumnIndex
+                }
+                else
+                {
+                    foundLeftmostMarble = true
+                }
+            }
+            else
+            {
+                foundLeftmostMarble =  true
+            }
+        }
+
+        //Counts the marbles from the rightmost disc in the chain belonging to the current player
+        while(count < 5 && !rightDeadEnd)
+        {
+            if(checkColumnIndex != 5) //If it is not at the very right already
+            {
+                currentHorizontalMarble = pentagoBoard[checkRowIndex][++checkColumnIndex] //the next marble to the right
+                if(currentHorizontalMarble != null && currentHorizontalMarble.marbleOwner == currentMarble.marbleOwner)
+                {
+                    ++count //Found a marble belonging to the current player next to it so count is incremented
+                }
+                else
+                {
+                    rightDeadEnd = true
+                }
+            }
+            else
+            {
+                rightDeadEnd = true
+            }
+        }
+        if(count == 5)
+        {
+            winner =  currentMarble.marbleOwner
+        }
+
+        return winner
+    }
+
+    private fun checkVertical(rowNumber: Int, columnNumber: Int): PlayerProfile?
+    {
+        //This function checks for a win condition vertically. It performs the check from Top to bottom
+        val currentMarble = checkNotNull(pentagoBoard[rowNumber][columnNumber]) {"Error! Null was found where a marble was supposed to exist. The function must only take the row and column number of recently placed marbles."} //There SHOULD be a marble here because this function requires arguments of the recently placed marble
+        var currentVerticalMarble: Marble? = null
+        var winner: PlayerProfile? = null
+        var count: Int = 1
+        var checkRowIndex = rowNumber
+        var checkColumnIndex = columnNumber
+        var bottomDeadEnd = false
+        var foundTopmostMarble = false
+        var nextTopVerticalMarble: Marble?
+
+        //Finds the topmost marble belonging to the current player
+        while(!foundTopmostMarble)
+        {
+            if(checkRowIndex != 0) //If the current marbles column number is not at the very top already (prevent IndexOutOfBounds)
+            {
+                nextTopVerticalMarble = pentagoBoard[checkRowIndex - 1][checkColumnIndex]
+
+                if(nextTopVerticalMarble != null && nextTopVerticalMarble.marbleOwner == currentMarble.marbleOwner)
+                {
+                    --checkRowIndex
+                }
+                else
+                {
+                    foundTopmostMarble = true
+                }
+            }
+            else
+            {
+                foundTopmostMarble = true
+            }
+        }
+
+        //Counts the marbles from the topmost disc in the chain belonging to the current player
+        while(count < 5 && !bottomDeadEnd)
+        {
+            if(checkRowIndex != 5) //If it is not at the very bottom already
+            {
+                currentVerticalMarble = pentagoBoard[++checkRowIndex][checkColumnIndex] //the next marble to the right
+                if(currentVerticalMarble != null && currentVerticalMarble.marbleOwner == currentMarble.marbleOwner)
+                {
+                    ++count //Found a marble belonging to the current player next to it so count is incremented
+                }
+                else
+                {
+                    bottomDeadEnd = true
+                }
+            }
+            else
+            {
+                bottomDeadEnd = true
+            }
+        }
+        if(count == 5)
+        {
+            winner =  currentMarble.marbleOwner
+        }
+
+        return winner
+    }
+
+    private fun checkLeadingDiagonal(rowNumber: Int, columnNumber: Int): PlayerProfile?
+    {
+        //This function checks for a win condition diagonally from the top left corner to the bottom right corner.
+        val currentMarble = checkNotNull(pentagoBoard[rowNumber][columnNumber]) {"Error! Null was found where a marble was supposed to exist. The function must only take the row and column number of recently placed marbles."} //There SHOULD be a marble here because this function requires arguments of the recently placed marble
+        var currentDiagonalMarble: Marble? = null
+        var winner: PlayerProfile? = null
+        var count: Int = 1
+        var checkRowIndex = rowNumber
+        var checkColumnIndex = columnNumber
+        var bottomRightDiagonalDeadEnd = false
+        var foundTopLeftmostMarble = false
+        var nextTopLeftDiagonalMarble: Marble?
+
+        //Finds the topleftmost marble belonging to the current player
+        while(!foundTopLeftmostMarble)
+        {
+            if(checkRowIndex != 0 && checkColumnIndex != 0) //If the current marbles column number is not at the top left already (prevent IndexOutOfBounds)
+            {
+                nextTopLeftDiagonalMarble = pentagoBoard[checkRowIndex - 1][checkColumnIndex - 1]
+
+                if(nextTopLeftDiagonalMarble != null && nextTopLeftDiagonalMarble.marbleOwner == currentMarble.marbleOwner)
+                {
+                    --checkRowIndex
+                    --checkColumnIndex
+                }
+                else
+                {
+                    foundTopLeftmostMarble = true
+                }
+            }
+            else
+            {
+                foundTopLeftmostMarble = true
+            }
+        }
+
+        //Counts the marbles from the topleftmost marble in the chain belonging to the current player
+        while(count < 5 && !bottomRightDiagonalDeadEnd)
+        {
+            if(checkRowIndex != 5 && checkColumnIndex != 5) //If it is not at the top left already
+            {
+                currentDiagonalMarble = pentagoBoard[++checkRowIndex][++checkColumnIndex] //the next marble to the bottom right
+                if(currentDiagonalMarble != null && currentDiagonalMarble.marbleOwner == currentMarble.marbleOwner)
+                {
+                    ++count //Found a marble belonging to the current player next to it so count is incremented
+                }
+                else
+                {
+                    bottomRightDiagonalDeadEnd = true
+                }
+            }
+            else
+            {
+                bottomRightDiagonalDeadEnd = true
+            }
+        }
+        if(count == 5)
+        {
+            winner =  currentMarble.marbleOwner
+        }
+
+        return winner
+    }
+
+    private fun checkAntiDiagonal(rowNumber: Int, columnNumber: Int): PlayerProfile?
+    {
+        //This function checks for a win condition diagonally from the top right corner to the bottom left corner.
+        val currentMarble = checkNotNull(pentagoBoard[rowNumber][columnNumber]) {"Error! Null was found where a marble was supposed to exist. The function must only take the row and column number of recently placed marbles."} //There SHOULD be a marble here because this function requires arguments of the recently placed marble
+        var currentDiagonalMarble: Marble? = null
+        var winner: PlayerProfile? = null
+        var count: Int = 1
+        var checkRowIndex = rowNumber
+        var checkColumnIndex = columnNumber
+        var bottomLeftDiagonalDeadEnd = false
+        var foundTopRightmostMarble = false
+        var nextTopRightDiagonalMarble: Marble?
+
+        //Finds the toprightmost marble belonging to the current player
+        while(!foundTopRightmostMarble)
+        {
+            if(checkRowIndex != 0 && checkColumnIndex != 5) //If the current marbles column number is not at the top right already (prevent IndexOutOfBounds)
+            {
+                nextTopRightDiagonalMarble = pentagoBoard[checkRowIndex - 1][checkColumnIndex + 1]
+
+                if(nextTopRightDiagonalMarble != null && nextTopRightDiagonalMarble.marbleOwner == currentMarble.marbleOwner)
+                {
+                    --checkRowIndex
+                    ++checkColumnIndex
+                }
+                else
+                {
+                    foundTopRightmostMarble = true
+                }
+            }
+            else
+            {
+                foundTopRightmostMarble = true
+            }
+        }
+
+        //Counts the marbles from the toprightmost marble in the chain belonging to the current player
+        while(count < 5 && !bottomLeftDiagonalDeadEnd)
+        {
+            if(checkRowIndex != 5 && checkColumnIndex != 0) //If it is not at the bottom left already
+            {
+                currentDiagonalMarble = pentagoBoard[++checkRowIndex][--checkColumnIndex] //the next marble to the bottom right
+                if(currentDiagonalMarble != null && currentDiagonalMarble.marbleOwner == currentMarble.marbleOwner)
+                {
+                    ++count //Found a marble belonging to the current player next to it so count is incremented
+                }
+                else
+                {
+                    bottomLeftDiagonalDeadEnd = true
+                }
+            }
+            else
+            {
+                bottomLeftDiagonalDeadEnd = true
+            }
+        }
+        if(count == 5)
+        {
+            winner =  currentMarble.marbleOwner
+        }
+
+        return winner
+    }
+
+
 
     companion object
     {
