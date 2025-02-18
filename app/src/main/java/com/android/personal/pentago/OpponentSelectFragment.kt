@@ -34,11 +34,11 @@ class OpponentSelectFragment : Fragment()
         {
             humanOpponentButton.setOnClickListener()
             {
-                findNavController().navigate(OpponentSelectFragmentDirections.actionOpponentSelectFragmentToGamePlayFragment())
+                findNavController().navigate(OpponentSelectFragmentDirections.actionOpponentSelectFragmentToGamePlayFragment(false))
             }
             aiOpponentButton.setOnClickListener()
             {
-                findNavController().navigate(OpponentSelectFragmentDirections.actionOpponentSelectFragmentToGamePlayFragment())
+                findNavController().navigate(OpponentSelectFragmentDirections.actionOpponentSelectFragmentToGamePlayFragment(true))
             }
             backButton.setOnClickListener()
             {

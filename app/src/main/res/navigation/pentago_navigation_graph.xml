@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_gamePlayFragment_to_mainMenuFragment"
             app:destination="@id/mainMenuFragment" />
+        <argument
+            android:name="isAgainstAiOpponent"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/profileSettingsFragment"
