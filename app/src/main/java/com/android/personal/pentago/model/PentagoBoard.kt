@@ -6,8 +6,9 @@ import kotlin.random.Random
 class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: PlayerProfile, val againstAiOpponent: Boolean)
 {
     var pentagoBoard = Array<Array<Marble?>>(6) { Array<Marble?>(6) { null } } //6x6 array which represent the pentago board
-    private var currentTurnPlayerProfile = player1Profile
+    var currentTurnPlayerProfile = player1Profile
 
+    //Might not get used
     fun playTurn(rowNumber: Int, columnNumber: Int, subgridString: String, rotationString: String): PlayerProfile?
     {
         var winner: PlayerProfile?
@@ -130,7 +131,22 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         currentTurnPlayerProfile = player1Profile
     }
 
-    private fun placeMarble(rowNumber: Int, columnNumber: Int)
+    fun updateTurns()
+    {
+        if(currentTurnPlayerProfile.equals(player1Profile))
+        {
+            currentTurnPlayerProfile = player2Profile
+        }
+        else
+        {
+            if(currentTurnPlayerProfile.equals(player2Profile))
+            {
+                currentTurnPlayerProfile = player1Profile
+            }
+        }
+    }
+
+    fun placeMarble(rowNumber: Int, columnNumber: Int)
     {
         val newMarble = Marble(currentTurnPlayerProfile, currentTurnPlayerProfile.marbleColour)
 
@@ -153,7 +169,99 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         }
     }
 
-    private fun rotateSubGrid(subgridString: String, rotationString: String)
+    fun aiPlaceMarble()
+    {
+        var rowNumber = Random.nextInt(0, 6)
+        var columnNumber = Random.nextInt(0, 6)
+        var hasCellBeenFound: Boolean = false
+
+        if(!againstAiOpponent)
+        {
+            throw IllegalStateException("Cannot play AI opponent's turn. This Pentago game is between human players.")
+        }
+
+        while(!hasCellBeenFound)
+        {
+            try
+            {
+                placeMarble(rowNumber, columnNumber)
+                hasCellBeenFound = true
+            }
+            catch(e: IllegalArgumentException)
+            {
+                rowNumber = Random.nextInt(0, 6)
+                columnNumber = Random.nextInt(0, 6)
+            }
+        }
+    }
+
+    fun aiRotateSubGrid()
+    {
+        var subgridInt = Random.nextInt(0, 3)
+        var rotationInt = Random.nextInt(0, 1)
+
+        if(rotationInt == 0) //Clockwise
+        {
+            if(subgridInt == 0) //Top Left grid
+            {
+                rotateSubGrid(TOP_LEFT_SUBGRID, CLOCKWISE_ROTATION)
+            }
+            else
+            {
+                if(subgridInt == 1)
+                {
+                    rotateSubGrid(TOP_RIGHT_SUBGRID, CLOCKWISE_ROTATION)
+                }
+                else
+                {
+                    if(subgridInt == 2)
+                    {
+                        rotateSubGrid(BOTTOM_LEFT_SUBGRID, CLOCKWISE_ROTATION)
+                    }
+                    else
+                    {
+                        if(subgridInt == 3)
+                        {
+                            rotateSubGrid(BOTTOM_RIGHT_SUBGRID, CLOCKWISE_ROTATION)
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            if(rotationInt == 1) //Anti-clockwise
+            {
+                if(subgridInt == 0) //Top Left grid
+                {
+                    rotateSubGrid(TOP_LEFT_SUBGRID, ANTI_CLOCKWISE_ROTATION)
+                }
+                else
+                {
+                    if(subgridInt == 1)
+                    {
+                        rotateSubGrid(TOP_RIGHT_SUBGRID, ANTI_CLOCKWISE_ROTATION)
+                    }
+                    else
+                    {
+                        if(subgridInt == 2)
+                        {
+                            rotateSubGrid(BOTTOM_LEFT_SUBGRID, ANTI_CLOCKWISE_ROTATION)
+                        }
+                        else
+                        {
+                            if(subgridInt == 3)
+                            {
+                                rotateSubGrid(BOTTOM_RIGHT_SUBGRID, ANTI_CLOCKWISE_ROTATION)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun rotateSubGrid(subgridString: String, rotationString: String)
     {
         if(subgridString == TOP_LEFT_SUBGRID)
         {
@@ -386,7 +494,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         }
     }
 
-    private fun checkWinCondition(rowNumber: Int, columnNumber: Int): PlayerProfile?
+    fun checkWinCondition(rowNumber: Int, columnNumber: Int): PlayerProfile?
     {
         var winner: PlayerProfile? = null
 
@@ -413,7 +521,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
     private fun checkHorizontal(rowNumber: Int, columnNumber: Int): PlayerProfile?
     {
         //This function checks for a win condition horizontally. It performs the check from Left to right
-        val currentMarble = checkNotNull(pentagoBoard[rowNumber][columnNumber]) {"Error! Null was found where a marble was supposed to exist. The function must only take the row and column number of recently placed marbles."} //There SHOULD be a marble here because this function requires arguments of the recently placed marble
+        val currentMarble = checkNotNull(pentagoBoard[rowNumber][columnNumber]) { "Error! Null was found where a marble was supposed to exist. The function must only take the row and column number of recently placed marbles." } //There SHOULD be a marble here because this function requires arguments of the recently placed marble
         var currentHorizontalMarble: Marble? = null
         var winner: PlayerProfile? = null
         var count: Int = 1
@@ -441,7 +549,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
             }
             else
             {
-                foundLeftmostMarble =  true
+                foundLeftmostMarble = true
             }
         }
 
@@ -467,7 +575,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         }
         if(count == 5)
         {
-            winner =  currentMarble.marbleOwner
+            winner = currentMarble.marbleOwner
         }
 
         return winner
@@ -476,7 +584,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
     private fun checkVertical(rowNumber: Int, columnNumber: Int): PlayerProfile?
     {
         //This function checks for a win condition vertically. It performs the check from Top to bottom
-        val currentMarble = checkNotNull(pentagoBoard[rowNumber][columnNumber]) {"Error! Null was found where a marble was supposed to exist. The function must only take the row and column number of recently placed marbles."} //There SHOULD be a marble here because this function requires arguments of the recently placed marble
+        val currentMarble = checkNotNull(pentagoBoard[rowNumber][columnNumber]) { "Error! Null was found where a marble was supposed to exist. The function must only take the row and column number of recently placed marbles." } //There SHOULD be a marble here because this function requires arguments of the recently placed marble
         var currentVerticalMarble: Marble? = null
         var winner: PlayerProfile? = null
         var count: Int = 1
@@ -530,7 +638,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         }
         if(count == 5)
         {
-            winner =  currentMarble.marbleOwner
+            winner = currentMarble.marbleOwner
         }
 
         return winner
@@ -539,7 +647,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
     private fun checkLeadingDiagonal(rowNumber: Int, columnNumber: Int): PlayerProfile?
     {
         //This function checks for a win condition diagonally from the top left corner to the bottom right corner.
-        val currentMarble = checkNotNull(pentagoBoard[rowNumber][columnNumber]) {"Error! Null was found where a marble was supposed to exist. The function must only take the row and column number of recently placed marbles."} //There SHOULD be a marble here because this function requires arguments of the recently placed marble
+        val currentMarble = checkNotNull(pentagoBoard[rowNumber][columnNumber]) { "Error! Null was found where a marble was supposed to exist. The function must only take the row and column number of recently placed marbles." } //There SHOULD be a marble here because this function requires arguments of the recently placed marble
         var currentDiagonalMarble: Marble? = null
         var winner: PlayerProfile? = null
         var count: Int = 1
@@ -594,7 +702,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         }
         if(count == 5)
         {
-            winner =  currentMarble.marbleOwner
+            winner = currentMarble.marbleOwner
         }
 
         return winner
@@ -603,7 +711,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
     private fun checkAntiDiagonal(rowNumber: Int, columnNumber: Int): PlayerProfile?
     {
         //This function checks for a win condition diagonally from the top right corner to the bottom left corner.
-        val currentMarble = checkNotNull(pentagoBoard[rowNumber][columnNumber]) {"Error! Null was found where a marble was supposed to exist. The function must only take the row and column number of recently placed marbles."} //There SHOULD be a marble here because this function requires arguments of the recently placed marble
+        val currentMarble = checkNotNull(pentagoBoard[rowNumber][columnNumber]) { "Error! Null was found where a marble was supposed to exist. The function must only take the row and column number of recently placed marbles." } //There SHOULD be a marble here because this function requires arguments of the recently placed marble
         var currentDiagonalMarble: Marble? = null
         var winner: PlayerProfile? = null
         var count: Int = 1
@@ -658,12 +766,11 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         }
         if(count == 5)
         {
-            winner =  currentMarble.marbleOwner
+            winner = currentMarble.marbleOwner
         }
 
         return winner
     }
-
 
 
     companion object
