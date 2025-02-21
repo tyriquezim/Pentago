@@ -131,7 +131,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         currentTurnPlayerProfile = player1Profile
     }
 
-    fun updateTurns()
+    private fun updateTurns()
     {
         if(currentTurnPlayerProfile.equals(player1Profile))
         {
@@ -161,7 +161,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
 
         if(pentagoBoard[rowNumber][columnNumber] != null)
         {
-            throw IllegalStateException("Cannot place marble at position $rowNumber, $columnNumber. There is already a marble in this cell.")
+            throw IllegalArgumentException("Cannot place marble at position $rowNumber, $columnNumber. There is already a marble in this cell.")
         }
         else
         {
@@ -288,6 +288,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
                 }
             }
         }
+        updateTurns()
     }
 
     private fun rotateTopLeftSubgrid(rotationString: String)
