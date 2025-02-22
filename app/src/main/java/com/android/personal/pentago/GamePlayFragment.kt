@@ -1,5 +1,6 @@
 package com.android.personal.pentago
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -31,6 +32,7 @@ class GamePlayFragment : Fragment()
         get() = checkNotNull(_binding) { "The FragmentGameplayBinding instance could not be accessed because it is currently null." }
     private val arguments: GamePlayFragmentArgs by navArgs()
     private lateinit var pentagoGameBoard: PentagoBoard
+    private lateinit var uiPentagoBoard: Array<Array<ImageView?>>
     private lateinit var player1Profile: PlayerProfile
     private lateinit var player2Profile: PlayerProfile
 
@@ -133,11 +135,31 @@ class GamePlayFragment : Fragment()
         _binding = null
     }
 
+    private fun initialiseUIGameBoard()
+    {
+        uiPentagoBoard = Array<Array<ImageView?>>(6) { Array<ImageView?>(6) { null } }
+        val numChildViews = 9
+        var currentChildIndex = 0
+
+        binding.apply()
+        {
+            //Adding the upper left subgrid image views
+            for(i in 0..2)
+            {
+                for(j in 0..2)
+                {
+                    uiPentagoBoard[i][j] = pentagoUpperLeftSubgrid.getChildAt()
+                }
+            }
+        }
+    }
+
     private fun activateGridCellClickListeners()
     {
         activateUpperLeftSubgridCellListeners()
         activateUpperRightSubgridCellListeners()
-
+        activateLowerLeftSubgridCellListeners()
+        activateLowerRightSubgridCellListeners()
     }
 
     private fun activateUpperLeftSubgridCellListeners()
@@ -164,11 +186,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(0, 1)
-                    updateTopLeftCells(0, 1)
+                    updateTopMiddleCells(0, 1)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -178,11 +199,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(0, 2)
-                    updateTopLeftCells(0, 2)
+                    updateTopRightCells(0, 2)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -192,11 +212,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(1, 0)
-                    updateTopLeftCells(1, 0)
+                    updateMiddleLeftCells(1, 0)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -206,11 +225,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(1, 1)
-                    updateTopLeftCells(1, 1)
+                    updateMiddleMiddleCells(1, 1)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -220,11 +238,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(1, 2)
-                    updateTopLeftCells(1, 2)
+                    updateMiddleRightCells(1, 2)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -234,11 +251,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(2, 0)
-                    updateTopLeftCells(2, 0)
+                    updateBottomLeftCells(2, 0)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -248,11 +264,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(2, 1)
-                    updateTopLeftCells(2, 1)
+                    updateBottomMiddleCells(2, 1)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -262,11 +277,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(2, 2)
-                    updateTopLeftCells(2, 2)
+                    updateBottomRightCells(2, 2)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -287,8 +301,7 @@ class GamePlayFragment : Fragment()
                     updateTopLeftCells(0, 3)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -299,11 +312,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(0, 4)
-                    updateTopLeftCells(0, 4)
+                    updateTopMiddleCells(0, 4)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -313,11 +325,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(0, 5)
-                    updateTopLeftCells(0, 5)
+                    updateTopRightCells(0, 5)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -327,11 +338,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(1, 3)
-                    updateTopLeftCells(1, 3)
+                    updateMiddleLeftCells(1, 3)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -341,11 +351,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(1, 4)
-                    updateTopLeftCells(1, 4)
+                    updateMiddleMiddleCells(1, 4)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -355,11 +364,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(1, 5)
-                    updateTopLeftCells(1, 5)
+                    updateMiddleRightCells(1, 5)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -369,11 +377,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(2, 3)
-                    updateTopLeftCells(2, 3)
+                    updateBottomLeftCells(2, 3)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -383,11 +390,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(2, 4)
-                    updateTopLeftCells(2, 4)
+                    updateBottomMiddleCells(2, 4)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -397,11 +403,10 @@ class GamePlayFragment : Fragment()
                 try
                 {
                     pentagoGameBoard.placeMarble(2, 5)
-                    updateTopLeftCells(2, 5)
+                    updateBottomRightCells(2, 5)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -418,8 +423,8 @@ class GamePlayFragment : Fragment()
             {
                 try
                 {
-                    pentagoGameBoard.placeMarble(0, 0)
-                    updateTopLeftCells(0, 0)
+                    pentagoGameBoard.placeMarble(3, 0)
+                    updateTopLeftCells(3, 0)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
                 } catch(e: IllegalArgumentException)
@@ -432,110 +437,228 @@ class GamePlayFragment : Fragment()
             {
                 try
                 {
-                    pentagoGameBoard.placeMarble(0, 1)
-                    updateTopLeftCells(0, 1)
+                    pentagoGameBoard.placeMarble(3, 1)
+                    updateTopMiddleCells(3, 1)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
             }
-            (pentagoUpperLeftSubgrid.getChildAt(2) as ImageView).setOnClickListener()
+            (pentagoLowerLeftSubgrid.getChildAt(2) as ImageView).setOnClickListener()
             {
                 try
                 {
-                    pentagoGameBoard.placeMarble(0, 2)
-                    updateTopLeftCells(0, 2)
+                    pentagoGameBoard.placeMarble(3, 2)
+                    updateTopRightCells(3, 2)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
             }
-            (pentagoUpperLeftSubgrid.getChildAt(3) as ImageView).setOnClickListener()
+            (pentagoLowerLeftSubgrid.getChildAt(3) as ImageView).setOnClickListener()
             {
                 try
                 {
-                    pentagoGameBoard.placeMarble(1, 0)
-                    updateTopLeftCells(1, 0)
+                    pentagoGameBoard.placeMarble(4, 0)
+                    updateMiddleLeftCells(4, 0)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
             }
-            (pentagoUpperLeftSubgrid.getChildAt(4) as ImageView).setOnClickListener()
+            (pentagoLowerLeftSubgrid.getChildAt(4) as ImageView).setOnClickListener()
             {
                 try
                 {
-                    pentagoGameBoard.placeMarble(1, 1)
-                    updateTopLeftCells(1, 1)
+                    pentagoGameBoard.placeMarble(4, 1)
+                    updateMiddleMiddleCells(4, 1)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
             }
-            (pentagoUpperLeftSubgrid.getChildAt(5) as ImageView).setOnClickListener()
+            (pentagoLowerLeftSubgrid.getChildAt(5) as ImageView).setOnClickListener()
             {
                 try
                 {
-                    pentagoGameBoard.placeMarble(1, 2)
-                    updateTopLeftCells(1, 2)
+                    pentagoGameBoard.placeMarble(4, 2)
+                    updateMiddleRightCells(4, 2)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
             }
-            (pentagoUpperLeftSubgrid.getChildAt(6) as ImageView).setOnClickListener()
+            (pentagoLowerLeftSubgrid.getChildAt(6) as ImageView).setOnClickListener()
             {
                 try
                 {
-                    pentagoGameBoard.placeMarble(2, 0)
-                    updateTopLeftCells(2, 0)
+                    pentagoGameBoard.placeMarble(5, 0)
+                    updateBottomLeftCells(5, 0)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
             }
-            (pentagoUpperLeftSubgrid.getChildAt(7) as ImageView).setOnClickListener()
+            (pentagoLowerLeftSubgrid.getChildAt(7) as ImageView).setOnClickListener()
             {
                 try
                 {
-                    pentagoGameBoard.placeMarble(2, 1)
-                    updateTopLeftCells(2, 1)
+                    pentagoGameBoard.placeMarble(5, 1)
+                    updateBottomMiddleCells(5, 1)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
-                }
-                catch(e: IllegalArgumentException)
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
             }
-            (pentagoUpperLeftSubgrid.getChildAt(8) as ImageView).setOnClickListener()
+            (pentagoLowerLeftSubgrid.getChildAt(8) as ImageView).setOnClickListener()
             {
                 try
                 {
-                    pentagoGameBoard.placeMarble(2, 2)
-                    updateTopLeftCells(2, 2)
+                    pentagoGameBoard.placeMarble(5, 2)
+                    updateBottomRightCells(5, 2)
                     gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
                     activateWholeSubgridClickListeners()
+                } catch(e: IllegalArgumentException)
+                {
+                    Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
-                catch(e: IllegalArgumentException)
+            }
+        }
+    }
+
+    private fun activateLowerRightSubgridCellListeners()
+    {
+        binding.apply()
+        {
+            //Upper left subgrid listeners
+            (pentagoLowerRightSubgrid.getChildAt(0) as ImageView).setOnClickListener()
+            {
+                try
+                {
+                    pentagoGameBoard.placeMarble(3, 3)
+                    updateTopLeftCells(3, 3)
+                    gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
+                    activateWholeSubgridClickListeners()
+                } catch(e: IllegalArgumentException)
+                {
+                    Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            (pentagoLowerRightSubgrid.getChildAt(1) as ImageView).setOnClickListener()
+            {
+                try
+                {
+                    pentagoGameBoard.placeMarble(3, 4)
+                    updateTopMiddleCells(3, 4)
+                    gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
+                    activateWholeSubgridClickListeners()
+                } catch(e: IllegalArgumentException)
+                {
+                    Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            (pentagoLowerRightSubgrid.getChildAt(2) as ImageView).setOnClickListener()
+            {
+                try
+                {
+                    pentagoGameBoard.placeMarble(3, 5)
+                    updateTopRightCells(3, 5)
+                    gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
+                    activateWholeSubgridClickListeners()
+                } catch(e: IllegalArgumentException)
+                {
+                    Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            (pentagoLowerRightSubgrid.getChildAt(3) as ImageView).setOnClickListener()
+            {
+                try
+                {
+                    pentagoGameBoard.placeMarble(4, 3)
+                    updateMiddleLeftCells(4, 3)
+                    gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
+                    activateWholeSubgridClickListeners()
+                } catch(e: IllegalArgumentException)
+                {
+                    Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            (pentagoLowerRightSubgrid.getChildAt(4) as ImageView).setOnClickListener()
+            {
+                try
+                {
+                    pentagoGameBoard.placeMarble(4, 4)
+                    updateMiddleMiddleCells(4, 4)
+                    gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
+                    activateWholeSubgridClickListeners()
+                } catch(e: IllegalArgumentException)
+                {
+                    Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            (pentagoLowerRightSubgrid.getChildAt(5) as ImageView).setOnClickListener()
+            {
+                try
+                {
+                    pentagoGameBoard.placeMarble(4, 5)
+                    updateMiddleRightCells(4, 5)
+                    gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
+                    activateWholeSubgridClickListeners()
+                } catch(e: IllegalArgumentException)
+                {
+                    Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            (pentagoLowerRightSubgrid.getChildAt(6) as ImageView).setOnClickListener()
+            {
+                try
+                {
+                    pentagoGameBoard.placeMarble(5, 3)
+                    updateBottomLeftCells(5, 3)
+                    gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
+                    activateWholeSubgridClickListeners()
+                } catch(e: IllegalArgumentException)
+                {
+                    Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            (pentagoLowerRightSubgrid.getChildAt(7) as ImageView).setOnClickListener()
+            {
+                try
+                {
+                    pentagoGameBoard.placeMarble(5, 4)
+                    updateBottomMiddleCells(5, 4)
+                    gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
+                    activateWholeSubgridClickListeners()
+                } catch(e: IllegalArgumentException)
+                {
+                    Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            (pentagoLowerRightSubgrid.getChildAt(8) as ImageView).setOnClickListener()
+            {
+                try
+                {
+                    pentagoGameBoard.placeMarble(5, 5)
+                    updateBottomRightCells(5, 5)
+                    gameStateHelpTextview.text = getString(R.string.game_state_help_rotate_subgrid)
+                    activateWholeSubgridClickListeners()
+                } catch(e: IllegalArgumentException)
                 {
                     Toast.makeText(context, "There is already a marble here.", Toast.LENGTH_SHORT).show()
                 }
@@ -558,17 +681,21 @@ class GamePlayFragment : Fragment()
                     clockwiseImageview.setOnClickListener()
                     {
                         pentagoGameBoard.rotateSubGrid(PentagoBoard.TOP_LEFT_SUBGRID, PentagoBoard.CLOCKWISE_ROTATION)
+                        rotateSubgridAnimation(pentagoUpperLeftSubgrid, PentagoBoard.CLOCKWISE_ROTATION)
                         updateUiGrids()
                         rotateLinearLayout.visibility = View.GONE
                         gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
                         activateGridCellClickListeners()
                     }
                     anticlockwiseImageview.setOnClickListener()
                     {
                         pentagoGameBoard.rotateSubGrid(PentagoBoard.TOP_LEFT_SUBGRID, PentagoBoard.ANTI_CLOCKWISE_ROTATION)
+                        rotateSubgridAnimation(pentagoUpperLeftSubgrid, PentagoBoard.ANTI_CLOCKWISE_ROTATION)
                         updateUiGrids()
                         rotateLinearLayout.visibility = View.GONE
                         gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
                         activateGridCellClickListeners()
                     }
                 }
@@ -583,6 +710,7 @@ class GamePlayFragment : Fragment()
                         updateUiGrids()
                         rotateLinearLayout.visibility = View.GONE
                         gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
                         activateGridCellClickListeners()
                     }
                     anticlockwiseImageview.setOnClickListener()
@@ -591,6 +719,7 @@ class GamePlayFragment : Fragment()
                         updateUiGrids()
                         rotateLinearLayout.visibility = View.GONE
                         gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
                         activateGridCellClickListeners()
                     }
                 }
@@ -605,6 +734,7 @@ class GamePlayFragment : Fragment()
                         updateUiGrids()
                         rotateLinearLayout.visibility = View.GONE
                         gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
                         activateGridCellClickListeners()
                     }
                     anticlockwiseImageview.setOnClickListener()
@@ -613,6 +743,7 @@ class GamePlayFragment : Fragment()
                         updateUiGrids()
                         rotateLinearLayout.visibility = View.GONE
                         gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
                         activateGridCellClickListeners()
                     }
                 }
@@ -627,6 +758,7 @@ class GamePlayFragment : Fragment()
                         updateUiGrids()
                         rotateLinearLayout.visibility = View.GONE
                         gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
                         activateGridCellClickListeners()
                     }
                     anticlockwiseImageview.setOnClickListener()
@@ -635,6 +767,7 @@ class GamePlayFragment : Fragment()
                         updateUiGrids()
                         rotateLinearLayout.visibility = View.GONE
                         gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
                         activateGridCellClickListeners()
                     }
                 }
@@ -2641,5 +2774,51 @@ class GamePlayFragment : Fragment()
                 else -> throw IllegalArgumentException("There is no valid image resource for the marble colour present in the Pentago Board marble slot '${checkNotNull(pentagoGameBoard.pentagoBoard[rowIndex][columnIndex]).marbleColour}' at postion ${rowIndex}, ${columnIndex}")
             }
         }
+    }
+
+    private fun rotateSubgridAnimation(subgrid: GridLayout, rotationString: String)
+    {
+        var subgridAnimator: ObjectAnimator? = null
+
+        if(rotationString == PentagoBoard.CLOCKWISE_ROTATION)
+        {
+            subgridAnimator = ObjectAnimator.ofFloat(subgrid, "rotation", 0f, 90f)
+            subgridAnimator.setDuration(rotationAnimationDuration)
+        }
+        else
+        {
+            if(rotationString == PentagoBoard.ANTI_CLOCKWISE_ROTATION)
+            {
+                subgridAnimator = ObjectAnimator.ofFloat(subgrid, "rotation", 0f, -90f)
+                subgridAnimator.setDuration(rotationAnimationDuration)
+            }
+        }
+        checkNotNull(subgridAnimator).start()
+    }
+
+    //Pass the rotationString yo want to undo. E.g if you want to undo a clockwise rotation pass the clockwise string
+    private fun instantUndoRotationAnimation(subgrid: GridLayout, rotationString: String)
+    {
+        var subgridAnimator: ObjectAnimator? = null
+
+        if(rotationString == PentagoBoard.CLOCKWISE_ROTATION)
+        {
+            subgridAnimator = ObjectAnimator.ofFloat(subgrid, "rotation", 0f, -90f)
+            subgridAnimator.setDuration(0)
+        }
+        else
+        {
+            if(rotationString == PentagoBoard.ANTI_CLOCKWISE_ROTATION)
+            {
+                subgridAnimator = ObjectAnimator.ofFloat(subgrid, "rotation", 0f, 90f)
+                subgridAnimator.setDuration(0)
+            }
+        }
+        checkNotNull(subgridAnimator).start()
+    }
+
+    companion object
+    {
+        const val rotationAnimationDuration: Long = 2000
     }
 }
