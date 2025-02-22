@@ -21,13 +21,15 @@ class PentagoRepository private constructor(context: Context)
 
     suspend fun deletePlayerProfile(playerId: Int) = database.playerProfileDAO().deletePlayerProfile(playerId)
 
-    suspend fun updatePlayerProfile(playerId: Int, modelProfile: PlayerProfile) = database.playerProfileDAO().updatePlayerProfile(playerId, modelProfile.userName, modelProfile.profilePicture, modelProfile.marbleColour)
+    suspend fun updatePlayerProfile(playerId: Int, modelProfile: PlayerProfile) = database.playerProfileDAO().updatePlayerProfile(playerId, modelProfile.userName, modelProfile.profilePicture, modelProfile.marbleColour, modelProfile.playerStats.numGamesPlayed, modelProfile.playerStats.numWins, modelProfile.playerStats.numLosses, modelProfile.playerStats.numDraws, modelProfile.playerStats.winPercentage, modelProfile.playerStats.totalMovesMade, modelProfile.playerStats.achievementObserversList)
 
     suspend fun updatePlayerProfileUserName(playerId: Int, newUserName: String) = database.playerProfileDAO().updatePlayerProfileUserName(playerId, newUserName)
 
     suspend fun updatePlayerProfileProfilePicture(playerId: Int, newProfilePicture: String) = database.playerProfileDAO().updatePlayerProfileProfilePicture(playerId, newProfilePicture)
 
     suspend fun updatePlayerProfileMarbleColour(playerId: Int, newMarbleColour: String) = database.playerProfileDAO().updatePlayerProfileMarbleColour(playerId, newMarbleColour)
+
+    suspend fun updatePlayerProfilePlayerStats(playerId: Int, newPlayerStatistics: PlayerProfile.PlayerStatistics) = database.playerProfileDAO().updatePlayerProfilePlayerStats(playerId, newPlayerStatistics.numGamesPlayed, newPlayerStatistics.numWins, newPlayerStatistics.numLosses, newPlayerStatistics.numDraws, newPlayerStatistics.winPercentage, newPlayerStatistics.totalMovesMade, newPlayerStatistics.achievementObserversList)
 
     suspend fun getPlayerProfile(playerId: Int): PlayerProfile = database.playerProfileDAO().getPlayerProfile(playerId)
 

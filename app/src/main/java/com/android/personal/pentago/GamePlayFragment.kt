@@ -20,10 +20,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.Visibility
 import com.android.personal.pentago.databinding.FragmentGamePlayBinding
+import com.android.personal.pentago.model.Achievement
 import com.android.personal.pentago.model.Marble
 import com.android.personal.pentago.model.PentagoBoard
 import com.android.personal.pentago.model.PlayerProfile
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -217,7 +219,7 @@ class GamePlayFragment : Fragment()
                         try
                         {
                             pentagoGameBoard.placeMarble(i, j)
-                            pentagoGameBoard.currentTurnPlayerProfile.updateTotalMovesMade()
+                            onAchievementEarned(pentagoGameBoard.currentTurnPlayerProfile, pentagoGameBoard.currentTurnPlayerProfile.updateTotalMovesMade())
                             updateSingleMarbleCell(i, j)
                             winner = pentagoGameBoard.checkWinCondition(i, j)
 
@@ -243,23 +245,32 @@ class GamePlayFragment : Fragment()
 
     private fun onSinglePlayerWin(winner: PlayerProfile)
     {
-        binding.playerTurnTextview.text = winner!!.userName + "Wins!!!"
+        binding.playerTurnTextview.text = winner!!.userName + " Wins!!!"
         binding.gameStateHelpTextview.text = null
 
-        winner.updateWins()
+        onAchievementEarned(winner, winner.updateWins())
 
         if(winner == pentagoGameBoard.player1Profile)
         {
-            pentagoGameBoard.player2Profile.updateLosses()
+            onAchievementEarned(pentagoGameBoard.player2Profile, pentagoGameBoard.player2Profile.updateLosses())
         }
         else
         {
             if(winner == pentagoGameBoard.player2Profile)
             {
-                pentagoGameBoard.player1Profile.updateLosses()
+                onAchievementEarned(pentagoGameBoard.player1Profile, pentagoGameBoard.player1Profile.updateLosses())
             }
         }
         disableGridCellClickListeners()
+
+        GlobalScope.launch()
+        {
+            PentagoRepository.get().mutex.withLock()
+            {
+                PentagoRepository.get().updatePlayerProfilePlayerStats(player1Profile.playerId, player1Profile.playerStats)
+                PentagoRepository.get().updatePlayerProfilePlayerStats(player2Profile.playerId, player2Profile.playerStats)
+            }
+        }
     }
 
     private fun onDraw()
@@ -267,10 +278,27 @@ class GamePlayFragment : Fragment()
         binding.playerTurnTextview.text =  "Draw!!!"
         binding.gameStateHelpTextview.text = null
 
-        pentagoGameBoard.player1Profile.updateDraws()
-        pentagoGameBoard.player2Profile.updateDraws()
+        onAchievementEarned(pentagoGameBoard.player1Profile, pentagoGameBoard.player1Profile.updateDraws())
+        onAchievementEarned(pentagoGameBoard.player2Profile, pentagoGameBoard.player2Profile.updateDraws())
 
         disableGridCellClickListeners()
+
+        GlobalScope.launch()
+        {
+            PentagoRepository.get().mutex.withLock()
+            {
+                PentagoRepository.get().updatePlayerProfilePlayerStats(player1Profile.playerId, player1Profile.playerStats)
+                PentagoRepository.get().updatePlayerProfilePlayerStats(player2Profile.playerId, player2Profile.playerStats)
+            }
+        }
+    }
+
+    private fun onAchievementEarned(playerProfile: PlayerProfile, earnedAchievements: List<Achievement>)
+    {
+        for(achievement in earnedAchievements)
+        {
+            Toast.makeText(context, playerProfile.userName + " earned " + achievement.achievementTitle + "!", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun disableGridCellClickListeners()

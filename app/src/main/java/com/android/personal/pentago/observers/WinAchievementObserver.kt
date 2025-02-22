@@ -17,7 +17,7 @@ class WinAchievementObserver: AchievementObserver
 
         for(i in 1..10)
         {
-            winAchievement = Achievement("Draw ${simpleRomanNumeralConverter(i)}", "Draw ${indexToStatisticFunction(i)} times!")
+            winAchievement = Achievement("Winner ${simpleRomanNumeralConverter(i)}", "Draw ${indexToStatisticFunction(i)} times!")
             winAchievementMap.put(indexToStatisticFunction(i).toInt(), winAchievement)
         }
     }

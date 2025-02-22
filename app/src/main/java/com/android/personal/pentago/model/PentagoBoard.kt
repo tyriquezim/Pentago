@@ -785,7 +785,10 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         {
             while(j <= 5 && winner == null)
             {
-                winner = checkWinCondition(i, j)
+                if(pentagoBoard[i][j] != null)
+                {
+                    winner = checkWinCondition(i, j)
+                }
                 ++j
             }
             ++i
@@ -809,17 +812,20 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         {
             while(j <= 5 && winnerCount < 2)
             {
-                winner = checkWinCondition(i, j)
+                if(pentagoBoard[i][j] != null)
+                {
+                    winner = checkWinCondition(i, j)
 
-                if(winner == player1Profile && !hasPlayer1Won)
-                {
-                    hasPlayer1Won = true
-                    ++winnerCount
-                }
-                if(winner == player2Profile && !hasPlayer2Won)
-                {
-                    hasPlayer2Won = true
-                    ++winnerCount
+                    if(winner == player1Profile && !hasPlayer1Won)
+                    {
+                        hasPlayer1Won = true
+                        ++winnerCount
+                    }
+                    if(winner == player2Profile && !hasPlayer2Won)
+                    {
+                        hasPlayer2Won = true
+                        ++winnerCount
+                    }
                 }
                 ++j
             }
