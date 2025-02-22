@@ -7,6 +7,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
 {
     var pentagoBoard = Array<Array<Marble?>>(6) { Array<Marble?>(6) { null } } //6x6 array which represent the pentago board
     var currentTurnPlayerProfile = player1Profile
+    var numMarbles = 0
 
     //Might not get used
     fun playTurn(rowNumber: Int, columnNumber: Int, subgridString: String, rotationString: String): PlayerProfile?
@@ -167,6 +168,7 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         {
             pentagoBoard[rowNumber][columnNumber] = newMarble
         }
+        ++numMarbles
     }
 
     fun aiPlaceMarble()
@@ -773,6 +775,69 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         return winner
     }
 
+    fun checkWinConditionPostRotation(): PlayerProfile?
+    {
+        var winner: PlayerProfile? = null
+        var i = 0
+        var j = 0
+
+        while(i <= 5 && winner == null)
+        {
+            while(j <= 5 && winner == null)
+            {
+                winner = checkWinCondition(i, j)
+                ++j
+            }
+            ++i
+            j = 0
+        }
+
+        return winner
+    }
+
+    fun didDrawHappen(): Boolean
+    {
+        var draw = false
+        var winner: PlayerProfile? = null
+        var winnerCount = 0
+        var i = 0
+        var j = 0
+        var hasPlayer1Won = false
+        var hasPlayer2Won = false
+
+        while(i <= 5 && winnerCount < 2)
+        {
+            while(j <= 5 && winnerCount < 2)
+            {
+                winner = checkWinCondition(i, j)
+
+                if(winner == player1Profile && !hasPlayer1Won)
+                {
+                    hasPlayer1Won = true
+                    ++winnerCount
+                }
+                if(winner == player2Profile && !hasPlayer2Won)
+                {
+                    hasPlayer2Won = true
+                    ++winnerCount
+                }
+                ++j
+            }
+            ++i
+            j = 0
+        }
+
+        if(numMarbles == 36 && !hasPlayer1Won && !hasPlayer2Won)
+        {
+            draw = true
+        }
+        if(winnerCount > 1)
+        {
+            draw = true
+        }
+
+        return draw
+    }
 
     companion object
     {

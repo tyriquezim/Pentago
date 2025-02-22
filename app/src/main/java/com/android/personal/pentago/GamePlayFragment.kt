@@ -248,17 +248,28 @@ class GamePlayFragment : Fragment()
 
         winner.updateWins()
 
-        if(winner == player1Profile)
+        if(winner == pentagoGameBoard.player1Profile)
         {
-            player2Profile.updateLosses()
+            pentagoGameBoard.player2Profile.updateLosses()
         }
         else
         {
-            if(winner == player2Profile)
+            if(winner == pentagoGameBoard.player2Profile)
             {
-                player1Profile.updateLosses()
+                pentagoGameBoard.player1Profile.updateLosses()
             }
         }
+        disableGridCellClickListeners()
+    }
+
+    private fun onDraw()
+    {
+        binding.playerTurnTextview.text =  "Draw!!!"
+        binding.gameStateHelpTextview.text = null
+
+        pentagoGameBoard.player1Profile.updateDraws()
+        pentagoGameBoard.player2Profile.updateDraws()
+
         disableGridCellClickListeners()
     }
 
@@ -276,6 +287,9 @@ class GamePlayFragment : Fragment()
     //Changes the all grid cell clicklisteners to rotate the grid. I applied it to all cells because applying it to the subgrids themselves wasnt working
     private fun activateWholeSubgridClickListeners()
     {
+        var winner: PlayerProfile? = null
+        var didDrawOccur = false
+
         binding.apply()
         {
             //Upper Left Subgrid
@@ -305,7 +319,25 @@ class GamePlayFragment : Fragment()
                                     rotateLinearLayout.visibility = View.GONE
                                     gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
                                     playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                    activateGridCellClickListeners()
+
+                                    didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                    if(didDrawOccur)
+                                    {
+                                        onDraw()
+                                    }
+                                    else
+                                    {
+                                        winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                        if(winner != null)
+                                        {
+                                            onSinglePlayerWin(winner!!)
+                                        }
+                                        else
+                                        {
+                                            activateGridCellClickListeners()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -325,7 +357,25 @@ class GamePlayFragment : Fragment()
                                     rotateLinearLayout.visibility = View.GONE
                                     gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
                                     playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                    activateGridCellClickListeners()
+
+                                    didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                    if(didDrawOccur)
+                                    {
+                                        onDraw()
+                                    }
+                                    else
+                                    {
+                                        winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                        if(winner != null)
+                                        {
+                                            onSinglePlayerWin(winner!!)
+                                        }
+                                        else
+                                        {
+                                            activateGridCellClickListeners()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -360,7 +410,25 @@ class GamePlayFragment : Fragment()
                                     rotateLinearLayout.visibility = View.GONE
                                     gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
                                     playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                    activateGridCellClickListeners()
+
+                                    didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                    if(didDrawOccur)
+                                    {
+                                        onDraw()
+                                    }
+                                    else
+                                    {
+                                        winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                        if(winner != null)
+                                        {
+                                            onSinglePlayerWin(winner!!)
+                                        }
+                                        else
+                                        {
+                                            activateGridCellClickListeners()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -380,7 +448,25 @@ class GamePlayFragment : Fragment()
                                     rotateLinearLayout.visibility = View.GONE
                                     gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
                                     playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                    activateGridCellClickListeners()
+
+                                    didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                    if(didDrawOccur)
+                                    {
+                                        onDraw()
+                                    }
+                                    else
+                                    {
+                                        winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                        if(winner != null)
+                                        {
+                                            onSinglePlayerWin(winner!!)
+                                        }
+                                        else
+                                        {
+                                            activateGridCellClickListeners()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -415,7 +501,25 @@ class GamePlayFragment : Fragment()
                                     rotateLinearLayout.visibility = View.GONE
                                     gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
                                     playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                    activateGridCellClickListeners()
+
+                                    didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                    if(didDrawOccur)
+                                    {
+                                        onDraw()
+                                    }
+                                    else
+                                    {
+                                        winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                        if(winner != null)
+                                        {
+                                            onSinglePlayerWin(winner!!)
+                                        }
+                                        else
+                                        {
+                                            activateGridCellClickListeners()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -435,7 +539,25 @@ class GamePlayFragment : Fragment()
                                     rotateLinearLayout.visibility = View.GONE
                                     gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
                                     playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                    activateGridCellClickListeners()
+
+                                    didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                    if(didDrawOccur)
+                                    {
+                                        onDraw()
+                                    }
+                                    else
+                                    {
+                                        winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                        if(winner != null)
+                                        {
+                                            onSinglePlayerWin(winner!!)
+                                        }
+                                        else
+                                        {
+                                            activateGridCellClickListeners()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -470,7 +592,25 @@ class GamePlayFragment : Fragment()
                                     rotateLinearLayout.visibility = View.GONE
                                     gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
                                     playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                    activateGridCellClickListeners()
+
+                                    didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                    if(didDrawOccur)
+                                    {
+                                        onDraw()
+                                    }
+                                    else
+                                    {
+                                        winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                        if(winner != null)
+                                        {
+                                            onSinglePlayerWin(winner!!)
+                                        }
+                                        else
+                                        {
+                                            activateGridCellClickListeners()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -490,7 +630,25 @@ class GamePlayFragment : Fragment()
                                     rotateLinearLayout.visibility = View.GONE
                                     gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
                                     playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                    activateGridCellClickListeners()
+
+                                    didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                    if(didDrawOccur)
+                                    {
+                                        onDraw()
+                                    }
+                                    else
+                                    {
+                                        winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                        if(winner != null)
+                                        {
+                                            onSinglePlayerWin(winner!!)
+                                        }
+                                        else
+                                        {
+                                            activateGridCellClickListeners()
+                                        }
+                                    }
                                 }
                             }
                         }
