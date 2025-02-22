@@ -73,11 +73,11 @@
         android:layout_height="wrap_content"
         android:text="@string/player_turn_text"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        app:layout_constraintVertical_bias="0.1"
         app:layout_constraintBottom_toTopOf="@id/pentago_master_grid"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/player_1_match_name" />
+        app:layout_constraintTop_toBottomOf="@id/player_1_match_name"
+        app:layout_constraintVertical_bias="0.1" />
 
     <TextView
         android:id="@+id/game_state_help_textview"
@@ -92,26 +92,26 @@
         android:id="@+id/rotate_linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="20dp"
+        android:orientation="horizontal"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/game_state_help_textview">
 
         <ImageView
             android:id="@+id/anticlockwise_imageview"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/baseline_rotate_anticlockwise_24"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/baseline_rotate_anticlockwise_24" />
 
         <ImageView
             android:id="@+id/clockwise_imageview"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/baseline_rotate_clockwise_24"
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="20dp"
+            android:src="@drawable/baseline_rotate_clockwise_24" />
     </LinearLayout>
 
     <GridLayout
