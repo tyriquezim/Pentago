@@ -11,17 +11,6 @@ class DrawAchievementObserver: AchievementObserver
 {
     val drawAchievementMap = HashMap<Int, Achievement>()
 
-    init
-    {
-        lateinit var drawAchievement: Achievement
-
-        for(i in 1..10)
-        {
-            drawAchievement = Achievement("Draw ${simpleRomanNumeralConverter(i)}", "Draw ${indexToStatisticFunction(i)} times!")
-            drawAchievementMap.put(indexToStatisticFunction(i).toInt(), drawAchievement)
-        }
-    }
-
     override fun updateAchievements(playerStats: PlayerProfile.PlayerStatistics): MutableList<Achievement>
     {
         val numDraws = playerStats.numDraws
@@ -46,5 +35,16 @@ class DrawAchievementObserver: AchievementObserver
     override fun getAchievementList(): List<Achievement>
     {
         return drawAchievementMap.values.toList()
+    }
+
+    override fun initialiseAchievementMap()
+    {
+        lateinit var drawAchievement: Achievement
+
+        for(i in 1..10)
+        {
+            drawAchievement = Achievement("Draw ${simpleRomanNumeralConverter(i)}", "Draw ${indexToStatisticFunction(i)} times!")
+            drawAchievementMap.put(indexToStatisticFunction(i).toInt(), drawAchievement)
+        }
     }
 }

@@ -9,18 +9,8 @@ import kotlinx.serialization.Serializable
 @SerialName("WinAchievementObserver")
 class WinAchievementObserver: AchievementObserver
 {
-    val winAchievementMap = HashMap<Int, Achievement>()
+    var winAchievementMap = HashMap<Int, Achievement>()
 
-    init
-    {
-        lateinit var winAchievement: Achievement
-
-        for(i in 1..10)
-        {
-            winAchievement = Achievement("Winner ${simpleRomanNumeralConverter(i)}", "Draw ${indexToStatisticFunction(i)} times!")
-            winAchievementMap.put(indexToStatisticFunction(i).toInt(), winAchievement)
-        }
-    }
     override fun updateAchievements(playerStats: PlayerProfile.PlayerStatistics): MutableList<Achievement>
     {
         val numWins = playerStats.numWins
@@ -45,5 +35,16 @@ class WinAchievementObserver: AchievementObserver
     override fun getAchievementList(): List<Achievement>
     {
         return winAchievementMap.values.toList()
+    }
+
+    override fun initialiseAchievementMap()
+    {
+        lateinit var winAchievement: Achievement
+
+        for(i in 1..10)
+        {
+            winAchievement = Achievement("Winner ${simpleRomanNumeralConverter(i)}", "Win ${indexToStatisticFunction(i)} times!")
+            winAchievementMap.put(indexToStatisticFunction(i).toInt(), winAchievement)
+        }
     }
 }

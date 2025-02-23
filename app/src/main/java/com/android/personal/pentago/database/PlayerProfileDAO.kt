@@ -21,7 +21,7 @@ interface PlayerProfileDao
     suspend fun deletePlayerProfile(playerId: Int)
 
     @Query("UPDATE PlayerProfile SET userName = :newUserName, profilePicture = :newProfilePicture, marbleColour = :newMarbleColour, numGamesPlayed = :newNumGamesPlayed, numWins = :newNumWins, numLosses = :newNumLosses, numDraws = :newNumDraws, winPercentage = :newWinPercentage, totalMovesMade = :newNumMovesMade, achievementObserversList = :newAchievementObserverList WHERE playerId = :targetPlayerId")
-    suspend fun updatePlayerProfile(targetPlayerId: Int, newUserName: String, newProfilePicture: String, newMarbleColour: String, newNumGamesPlayed: Int, newNumWins: Int, newNumLosses: Int, newNumDraws: Int, newWinPercentage: Double, newNumMovesMade: Int, newAchievementObserverList: List<AchievementObserver>)
+    suspend fun updatePlayerProfile(targetPlayerId: Int, newUserName: String, newProfilePicture: String, newMarbleColour: String, newNumGamesPlayed: Int, newNumWins: Int, newNumLosses: Int, newNumDraws: Int, newWinPercentage: Double, newNumMovesMade: Int, newAchievementObserverList: ArrayList<AchievementObserver>)
 
     @Query("UPDATE PLayerProfile SET userName = :newUserName WHERE playerId = :targetPlayerId")
     suspend fun updatePlayerProfileUserName(targetPlayerId: Int, newUserName: String)
@@ -33,7 +33,7 @@ interface PlayerProfileDao
     suspend fun updatePlayerProfileMarbleColour(targetPlayerId: Int, newMarbleColour: String)
 
     @Query("UPDATE PlayerProfile SET numGamesPlayed = :newNumGamesPlayed, numWins = :newNumWins, numLosses = :newNumLosses, numDraws = :newNumDraws, winPercentage = :newWinPercentage, totalMovesMade = :newNumMovesMade, achievementObserversList = :newAchievementObserverList WHERE playerId = :targetPlayerId")
-    suspend fun updatePlayerProfilePlayerStats(targetPlayerId: Int, newNumGamesPlayed: Int, newNumWins: Int, newNumLosses: Int, newNumDraws: Int, newWinPercentage: Double, newNumMovesMade: Int, newAchievementObserverList: List<AchievementObserver>)
+    suspend fun updatePlayerProfilePlayerStats(targetPlayerId: Int, newNumGamesPlayed: Int, newNumWins: Int, newNumLosses: Int, newNumDraws: Int, newWinPercentage: Double, newNumMovesMade: Int, newAchievementObserverList: ArrayList<AchievementObserver>)
 
     @Query("SELECT * FROM PlayerProfile WHERE playerId = :playerId")
     suspend fun getPlayerProfile(playerId: Int): PlayerProfile

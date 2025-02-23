@@ -11,17 +11,6 @@ class LoseAchievementObserver: AchievementObserver
 {
     val lossAchievementMap = HashMap<Int, Achievement>()
 
-    init
-    {
-        lateinit var lossAchievement: Achievement
-
-        for(i in 1..10)
-        {
-            lossAchievement = Achievement("Loser ${simpleRomanNumeralConverter(i)}", "Lose ${indexToStatisticFunction(i)} times!")
-            lossAchievementMap.put(indexToStatisticFunction(i).toInt(), lossAchievement)
-        }
-    }
-
     override fun updateAchievements(playerStats: PlayerProfile.PlayerStatistics):MutableList<Achievement>
     {
         val numLosses = playerStats.numLosses
@@ -46,5 +35,16 @@ class LoseAchievementObserver: AchievementObserver
     override fun getAchievementList(): List<Achievement>
     {
         return lossAchievementMap.values.toList()
+    }
+
+    override fun initialiseAchievementMap()
+    {
+        lateinit var lossAchievement: Achievement
+
+        for(i in 1..10)
+        {
+            lossAchievement = Achievement("Loser ${simpleRomanNumeralConverter(i)}", "Lose ${indexToStatisticFunction(i)} times!")
+            lossAchievementMap.put(indexToStatisticFunction(i).toInt(), lossAchievement)
+        }
     }
 }

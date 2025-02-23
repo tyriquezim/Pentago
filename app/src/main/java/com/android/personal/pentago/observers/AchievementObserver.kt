@@ -34,4 +34,7 @@ interface AchievementObserver
 
         return romanNumeral
     }
+
+    //This function is to transfer the init block logic because it was messing with the serialization/deserialisation process
+    fun initialiseAchievementMap()
 }

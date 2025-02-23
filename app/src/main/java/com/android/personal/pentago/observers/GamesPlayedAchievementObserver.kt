@@ -11,16 +11,6 @@ class GamesPlayedAchievementObserver: AchievementObserver
 {
     val gamesPlayedAchievementMap = HashMap<Int, Achievement>()
 
-    init
-    {
-        lateinit var gamesPlayedAchievement: Achievement
-
-        for(i in 1..10)
-        {
-            gamesPlayedAchievement = Achievement("Pentago Player Master ${simpleRomanNumeralConverter(i)}", "Play a total of ${indexToStatisticFunction(i)} Pentago games!")
-            gamesPlayedAchievementMap.put(indexToStatisticFunction(i).toInt(), gamesPlayedAchievement)
-        }
-    }
     override fun updateAchievements(playerStats: PlayerProfile.PlayerStatistics): MutableList<Achievement>
     {
         val numGamesPlayed = playerStats.numGamesPlayed
@@ -45,5 +35,16 @@ class GamesPlayedAchievementObserver: AchievementObserver
     override fun getAchievementList(): List<Achievement>
     {
         return gamesPlayedAchievementMap.values.toList()
+    }
+
+    override fun initialiseAchievementMap()
+    {
+        lateinit var gamesPlayedAchievement: Achievement
+
+        for(i in 1..10)
+        {
+            gamesPlayedAchievement = Achievement("Pentago Player Master ${simpleRomanNumeralConverter(i)}", "Play a total of ${indexToStatisticFunction(i)} Pentago games!")
+            gamesPlayedAchievementMap.put(indexToStatisticFunction(i).toInt(), gamesPlayedAchievement)
+        }
     }
 }

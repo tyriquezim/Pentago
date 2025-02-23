@@ -11,16 +11,6 @@ class MoveAchievementObserver: AchievementObserver
 {
     val movesAchievementMap = HashMap<Int, Achievement>()
 
-    init
-    {
-        lateinit var movesAchievement: Achievement
-
-        for(i in 1..10)
-        {
-            movesAchievement = Achievement("Move Maker ${simpleRomanNumeralConverter(i)}", "Make a total of ${indexToStatisticFunction(i)} moves across all games!")
-            movesAchievementMap.put(indexToStatisticFunction(i).toInt(), movesAchievement)
-        }
-    }
     override fun updateAchievements(playerStats: PlayerProfile.PlayerStatistics): MutableList<Achievement>
     {
         val movesMade = playerStats.totalMovesMade
@@ -45,6 +35,17 @@ class MoveAchievementObserver: AchievementObserver
     override fun getAchievementList(): List<Achievement>
     {
         return movesAchievementMap.values.toList()
+    }
+
+    override fun initialiseAchievementMap()
+    {
+        lateinit var movesAchievement: Achievement
+
+        for(i in 1..10)
+        {
+            movesAchievement = Achievement("Move Maker ${simpleRomanNumeralConverter(i)}", "Make a total of ${indexToStatisticFunction(i)} moves across all games!")
+            movesAchievementMap.put(indexToStatisticFunction(i).toInt(), movesAchievement)
+        }
     }
 
 }

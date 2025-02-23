@@ -11,22 +11,6 @@ class WinPercentageAchievementObserver: AchievementObserver
 {
     val winPercentageAchievementMap = HashMap<String, Achievement>()
 
-    init
-    {
-        lateinit var winPercentageAchievement: Achievement
-
-        winPercentageAchievement = Achievement("Pentago Beginner", "Achieve a win percentage greater than 60% after playing more than 10 games.")
-        winPercentageAchievementMap.put("Beginner", winPercentageAchievement)
-
-        winPercentageAchievement = Achievement("Pentago Pro", "Achieve a win percentage greater than 80% after playing more than 10 games.")
-        winPercentageAchievementMap.put("Pro", winPercentageAchievement)
-
-        winPercentageAchievement = Achievement("Falling Marble", "Achieve a win percentage less than 40% after playing more than 10 games.")
-        winPercentageAchievementMap.put("Falling", winPercentageAchievement)
-
-        winPercentageAchievement = Achievement("Ultimate Loser", "Achieve a win percentage less than 20%. after playing more than 10 games")
-        winPercentageAchievementMap.put("Loser", winPercentageAchievement)
-    }
     override fun updateAchievements(playerStats: PlayerProfile.PlayerStatistics): MutableList<Achievement>
     {
         val winPerc = playerStats.winPercentage
@@ -74,5 +58,22 @@ class WinPercentageAchievementObserver: AchievementObserver
     override fun getAchievementList(): List<Achievement>
     {
         return winPercentageAchievementMap.values.toList()
+    }
+
+    override fun initialiseAchievementMap()
+    {
+        lateinit var winPercentageAchievement: Achievement
+
+        winPercentageAchievement = Achievement("Pentago Beginner", "Achieve a win percentage greater than 60% after playing more than 10 games.")
+        winPercentageAchievementMap.put("Beginner", winPercentageAchievement)
+
+        winPercentageAchievement = Achievement("Pentago Pro", "Achieve a win percentage greater than 80% after playing more than 10 games.")
+        winPercentageAchievementMap.put("Pro", winPercentageAchievement)
+
+        winPercentageAchievement = Achievement("Falling Marble", "Achieve a win percentage less than 40% after playing more than 10 games.")
+        winPercentageAchievementMap.put("Falling", winPercentageAchievement)
+
+        winPercentageAchievement = Achievement("Ultimate Loser", "Achieve a win percentage less than 20%. after playing more than 10 games")
+        winPercentageAchievementMap.put("Loser", winPercentageAchievement)
     }
 }
