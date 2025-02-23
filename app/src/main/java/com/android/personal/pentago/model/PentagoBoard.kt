@@ -171,11 +171,12 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
         ++numMarbles
     }
 
-    fun aiPlaceMarble()
+    fun aiPlaceMarble(): Array<Int?>
     {
         var rowNumber = Random.nextInt(0, 6)
         var columnNumber = Random.nextInt(0, 6)
         var hasCellBeenFound: Boolean = false
+        var marbleLocation = Array<Int?>(2) {null}
 
         if(!againstAiOpponent)
         {
@@ -187,6 +188,8 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
             try
             {
                 placeMarble(rowNumber, columnNumber)
+                marbleLocation[0] = rowNumber
+                marbleLocation[1] = columnNumber
                 hasCellBeenFound = true
             }
             catch(e: IllegalArgumentException)
@@ -195,12 +198,17 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
                 columnNumber = Random.nextInt(0, 6)
             }
         }
+
+        return marbleLocation
     }
 
-    fun aiRotateSubGrid()
+    fun aiRotateSubGrid(): Array<Int?>
     {
-        var subgridInt = Random.nextInt(0, 3)
-        var rotationInt = Random.nextInt(0, 1)
+        var subgridInt = Random.nextInt(0, 4)
+        var rotationInt = Random.nextInt(0, 2)
+        var subgridRotationInfo = Array<Int?>(2) {null}
+        subgridRotationInfo[0] = subgridInt
+        subgridRotationInfo[1] = rotationInt
 
         if(rotationInt == 0) //Clockwise
         {
@@ -261,6 +269,8 @@ class PentagoBoard(val player1Profile: PlayerProfile, val player2Profile: Player
                 }
             }
         }
+
+        return subgridRotationInfo
     }
 
     fun rotateSubGrid(subgridString: String, rotationString: String)
