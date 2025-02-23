@@ -23,7 +23,11 @@ class PentagoTypeConverters
         }
     }
 
-    val jsonFormat = Json() {serializersModule = serialiserModule}
+    val jsonFormat = Json() {
+        serializersModule = serialiserModule
+        encodeDefaults = true
+        ignoreUnknownKeys = true
+    }
 
     @TypeConverter
     fun convertAchievementObserverListToJson(observerList: ArrayList<AchievementObserver>): String

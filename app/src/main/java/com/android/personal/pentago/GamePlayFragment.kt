@@ -312,6 +312,15 @@ class GamePlayFragment : Fragment()
         }
     }
 
+    private fun disableRotationClickListeners()
+    {
+        binding.apply()
+        {
+            clockwiseImageview.setOnClickListener(null)
+            anticlockwiseImageview.setOnClickListener(null)
+        }
+    }
+
     //Changes the all grid cell clicklisteners to rotate the grid. I applied it to all cells because applying it to the subgrids themselves wasnt working
     private fun activateWholeSubgridClickListeners()
     {
@@ -333,6 +342,7 @@ class GamePlayFragment : Fragment()
                         pentagoUpperLeftSubgrid.background = ContextCompat.getDrawable(requireContext(), R.color.highlight_background_yellow)
                         clockwiseImageview.setOnClickListener()
                         {
+                            disableRotationClickListeners()
                             pentagoUpperLeftSubgrid.background = null
                             pentagoGameBoard.rotateSubGrid(PentagoBoard.TOP_LEFT_SUBGRID, PentagoBoard.CLOCKWISE_ROTATION)
                             resizeSubGridAnimation(pentagoUpperLeftSubgrid, SHRINK_ANIMATION)
@@ -371,6 +381,7 @@ class GamePlayFragment : Fragment()
                         }
                         anticlockwiseImageview.setOnClickListener()
                         {
+                            disableRotationClickListeners()
                             pentagoUpperLeftSubgrid.background = null
                             pentagoGameBoard.rotateSubGrid(PentagoBoard.TOP_LEFT_SUBGRID, PentagoBoard.ANTI_CLOCKWISE_ROTATION)
                             resizeSubGridAnimation(pentagoUpperLeftSubgrid, SHRINK_ANIMATION)
@@ -424,6 +435,7 @@ class GamePlayFragment : Fragment()
                         pentagoUpperRightSubgrid.background = ContextCompat.getDrawable(requireContext(), R.color.highlight_background_yellow)
                         clockwiseImageview.setOnClickListener()
                         {
+                            disableRotationClickListeners()
                             pentagoUpperRightSubgrid.background = null
                             pentagoGameBoard.rotateSubGrid(PentagoBoard.TOP_RIGHT_SUBGRID, PentagoBoard.CLOCKWISE_ROTATION)
                             resizeSubGridAnimation(pentagoUpperRightSubgrid, SHRINK_ANIMATION)
@@ -462,6 +474,7 @@ class GamePlayFragment : Fragment()
                         }
                         anticlockwiseImageview.setOnClickListener()
                         {
+                            disableRotationClickListeners()
                             pentagoUpperRightSubgrid.background = null
                             pentagoGameBoard.rotateSubGrid(PentagoBoard.TOP_RIGHT_SUBGRID, PentagoBoard.ANTI_CLOCKWISE_ROTATION)
                             resizeSubGridAnimation(pentagoUpperRightSubgrid, SHRINK_ANIMATION)
@@ -515,6 +528,7 @@ class GamePlayFragment : Fragment()
                         pentagoLowerLeftSubgrid.background = ContextCompat.getDrawable(requireContext(), R.color.highlight_background_yellow)
                         clockwiseImageview.setOnClickListener()
                         {
+                            disableRotationClickListeners()
                             pentagoLowerLeftSubgrid.background = null
                             pentagoGameBoard.rotateSubGrid(PentagoBoard.BOTTOM_LEFT_SUBGRID, PentagoBoard.CLOCKWISE_ROTATION)
                             resizeSubGridAnimation(pentagoLowerLeftSubgrid, SHRINK_ANIMATION)
@@ -553,6 +567,7 @@ class GamePlayFragment : Fragment()
                         }
                         anticlockwiseImageview.setOnClickListener()
                         {
+                            disableRotationClickListeners()
                             pentagoLowerLeftSubgrid.background = null
                             pentagoGameBoard.rotateSubGrid(PentagoBoard.BOTTOM_LEFT_SUBGRID, PentagoBoard.ANTI_CLOCKWISE_ROTATION)
                             resizeSubGridAnimation(pentagoLowerLeftSubgrid, SHRINK_ANIMATION)
@@ -606,6 +621,7 @@ class GamePlayFragment : Fragment()
                         pentagoLowerRightSubgrid.background = ContextCompat.getDrawable(requireContext(), R.color.highlight_background_yellow)
                         clockwiseImageview.setOnClickListener()
                         {
+                            disableRotationClickListeners()
                             pentagoLowerRightSubgrid.background = null
                             pentagoGameBoard.rotateSubGrid(PentagoBoard.BOTTOM_RIGHT_SUBGRID, PentagoBoard.CLOCKWISE_ROTATION)
                             resizeSubGridAnimation(pentagoLowerRightSubgrid, SHRINK_ANIMATION)
@@ -644,6 +660,7 @@ class GamePlayFragment : Fragment()
                         }
                         anticlockwiseImageview.setOnClickListener()
                         {
+                            disableRotationClickListeners()
                             pentagoLowerRightSubgrid.background = null
                             pentagoGameBoard.rotateSubGrid(PentagoBoard.BOTTOM_RIGHT_SUBGRID, PentagoBoard.ANTI_CLOCKWISE_ROTATION)
                             resizeSubGridAnimation(pentagoLowerRightSubgrid, SHRINK_ANIMATION)

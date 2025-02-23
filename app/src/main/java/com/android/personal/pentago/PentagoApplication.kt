@@ -52,26 +52,32 @@ class PentagoApplication : Application()
             {
                 //Add Draw Observer
                 achievementObserver = DrawAchievementObserver()
+                achievementObserver.initialiseAchievementMap()
                 player.addAchievementObserver(achievementObserver)
 
                 //Add Games Played Observer
                 achievementObserver = GamesPlayedAchievementObserver()
+                achievementObserver.initialiseAchievementMap()
                 player.addAchievementObserver(achievementObserver)
 
                 //Add Lose Observer
                 achievementObserver = LoseAchievementObserver()
+                achievementObserver.initialiseAchievementMap()
                 player.addAchievementObserver(achievementObserver)
 
                 //Add Moves Played Observer
                 achievementObserver = MoveAchievementObserver()
+                achievementObserver.initialiseAchievementMap()
                 player.addAchievementObserver(achievementObserver)
 
                 //Add Win Achievement Observer
                 achievementObserver = WinAchievementObserver()
+                achievementObserver.initialiseAchievementMap()
                 player.addAchievementObserver(achievementObserver)
 
                 //Add Win Percentage Observer
                 achievementObserver = WinPercentageAchievementObserver()
+                achievementObserver.initialiseAchievementMap()
                 player.addAchievementObserver(achievementObserver)
             }
 

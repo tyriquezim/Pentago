@@ -43,7 +43,7 @@ class MoveAchievementObserver: AchievementObserver
 
         for(i in 1..10)
         {
-            movesAchievement = Achievement("Move Maker ${simpleRomanNumeralConverter(i)}", "Make a total of ${indexToStatisticFunction(i)} moves across all games!")
+            movesAchievement = Achievement("Move Maker ${simpleRomanNumeralConverter(i)}","Make a total of ${indexToStatisticFunction(i)} moves across all games!")
             movesAchievementMap.put(indexToStatisticFunction(i).toInt(), movesAchievement)
         }
     }

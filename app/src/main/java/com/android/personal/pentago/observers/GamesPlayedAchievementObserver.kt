@@ -43,7 +43,7 @@ class GamesPlayedAchievementObserver: AchievementObserver
 
         for(i in 1..10)
         {
-            gamesPlayedAchievement = Achievement("Pentago Player Master ${simpleRomanNumeralConverter(i)}", "Play a total of ${indexToStatisticFunction(i)} Pentago games!")
+            gamesPlayedAchievement = Achievement("Pentago Player Master ${simpleRomanNumeralConverter(i)}","Play a total of ${indexToStatisticFunction(i)} Pentago games!")
             gamesPlayedAchievementMap.put(indexToStatisticFunction(i).toInt(), gamesPlayedAchievement)
         }
     }

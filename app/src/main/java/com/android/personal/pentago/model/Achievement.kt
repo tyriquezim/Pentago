@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 import java.time.ZoneId
 
 @Serializable
-class Achievement(val achievementTitle: String, val achievementDescription: String)
+class Achievement(var achievementTitle: String, var achievementDescription: String)
 {
     var hasBeenEarned: Boolean = false
         set(value)

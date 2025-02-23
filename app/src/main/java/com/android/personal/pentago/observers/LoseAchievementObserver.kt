@@ -43,7 +43,7 @@ class LoseAchievementObserver: AchievementObserver
 
         for(i in 1..10)
         {
-            lossAchievement = Achievement("Loser ${simpleRomanNumeralConverter(i)}", "Lose ${indexToStatisticFunction(i)} times!")
+            lossAchievement = Achievement("Loser ${simpleRomanNumeralConverter(i)}","Lose ${indexToStatisticFunction(i)} times!")
             lossAchievementMap.put(indexToStatisticFunction(i).toInt(), lossAchievement)
         }
     }

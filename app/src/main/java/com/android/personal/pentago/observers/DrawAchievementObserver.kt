@@ -43,7 +43,7 @@ class DrawAchievementObserver: AchievementObserver
 
         for(i in 1..10)
         {
-            drawAchievement = Achievement("Draw ${simpleRomanNumeralConverter(i)}", "Draw ${indexToStatisticFunction(i)} times!")
+            drawAchievement = Achievement("Draw ${simpleRomanNumeralConverter(i)}","Draw ${indexToStatisticFunction(i)} times!")
             drawAchievementMap.put(indexToStatisticFunction(i).toInt(), drawAchievement)
         }
     }

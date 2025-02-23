@@ -67,13 +67,13 @@ class WinPercentageAchievementObserver: AchievementObserver
         winPercentageAchievement = Achievement("Pentago Beginner", "Achieve a win percentage greater than 60% after playing more than 10 games.")
         winPercentageAchievementMap.put("Beginner", winPercentageAchievement)
 
-        winPercentageAchievement = Achievement("Pentago Pro", "Achieve a win percentage greater than 80% after playing more than 10 games.")
+        winPercentageAchievement = Achievement("Pentago Pro","Achieve a win percentage greater than 80% after playing more than 10 games.")
         winPercentageAchievementMap.put("Pro", winPercentageAchievement)
 
-        winPercentageAchievement = Achievement("Falling Marble", "Achieve a win percentage less than 40% after playing more than 10 games.")
+        winPercentageAchievement = Achievement("Falling Marble","Achieve a win percentage less than 40% after playing more than 10 games.")
         winPercentageAchievementMap.put("Falling", winPercentageAchievement)
 
-        winPercentageAchievement = Achievement("Ultimate Loser", "Achieve a win percentage less than 20%. after playing more than 10 games")
+        winPercentageAchievement = Achievement("Ultimate Loser","Achieve a win percentage less than 20%. after playing more than 10 games")
         winPercentageAchievementMap.put("Loser", winPercentageAchievement)
     }
 }
