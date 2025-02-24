@@ -368,20 +368,25 @@ class GamePlayFragment : Fragment()
                                         {
                                             if(arguments.isAgainstAiOpponent)
                                             {
-                                                pentagoUpperLeftSubgrid.postDelayed(AI_PLACE_MARBLE_WAIT_DURATION)
+                                                pentagoUpperLeftSubgrid.postDelayed(GROW_ANIMATION_DURATION + AI_PLACE_MARBLE_WAIT_DURATION)
                                                 {
                                                     lateinit var marbleLocation: Array<Int?>
                                                     lateinit var rotationInfo: Array<Int?>
                                                     marbleLocation = pentagoGameBoard.aiPlaceMarble()
-                                                    updateEmptyCell(marbleLocation[0]!!, marbleLocation[1]!!)
-                                                    pentagoUpperLeftSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                    updateSingleMarbleCell(marbleLocation[0]!!, marbleLocation[1]!!)
+                                                    winner = pentagoGameBoard.checkWinCondition(marbleLocation[0]!!, marbleLocation[1]!!)
+
+                                                    if(winner != null)
                                                     {
-                                                        pentagoGameBoard.aiRotateSubGrid()
-                                                        rotationInfo = pentagoGameBoard.aiRotateSubGrid()
-                                                        aiRotationAnimation(rotationInfo)
-                                                        gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
-                                                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                                        activateGridCellClickListeners()
+                                                        onSinglePlayerWin(winner!!)
+                                                    }
+                                                    else
+                                                    {
+                                                        pentagoUpperLeftSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                        {
+                                                            rotationInfo = pentagoGameBoard.aiRotateSubGrid()
+                                                            aiRotationAnimation(rotationInfo)
+                                                        }
                                                     }
                                                 }
 
@@ -430,19 +435,25 @@ class GamePlayFragment : Fragment()
                                         {
                                             if(arguments.isAgainstAiOpponent)
                                             {
-                                                pentagoUpperLeftSubgrid.postDelayed(AI_PLACE_MARBLE_WAIT_DURATION)
+                                                pentagoUpperLeftSubgrid.postDelayed(GROW_ANIMATION_DURATION + AI_PLACE_MARBLE_WAIT_DURATION)
                                                 {
                                                     lateinit var marbleLocation: Array<Int?>
                                                     lateinit var rotationInfo: Array<Int?>
                                                     marbleLocation = pentagoGameBoard.aiPlaceMarble()
-                                                    updateEmptyCell(marbleLocation[0]!!, marbleLocation[1]!!)
-                                                    pentagoUpperLeftSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                    updateSingleMarbleCell(marbleLocation[0]!!, marbleLocation[1]!!)
+                                                    winner = pentagoGameBoard.checkWinCondition(marbleLocation[0]!!, marbleLocation[1]!!)
+
+                                                    if(winner != null)
                                                     {
-                                                        rotationInfo = pentagoGameBoard.aiRotateSubGrid()
-                                                        aiRotationAnimation(rotationInfo)
-                                                        gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
-                                                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                                        activateGridCellClickListeners()
+                                                        onSinglePlayerWin(winner!!)
+                                                    }
+                                                    else
+                                                    {
+                                                        pentagoUpperLeftSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                        {
+                                                            rotationInfo = pentagoGameBoard.aiRotateSubGrid()
+                                                            aiRotationAnimation(rotationInfo)
+                                                        }
                                                     }
                                                 }
                                             }
@@ -505,20 +516,25 @@ class GamePlayFragment : Fragment()
                                         {
                                             if(arguments.isAgainstAiOpponent)
                                             {
-                                                pentagoUpperRightSubgrid.postDelayed(AI_PLACE_MARBLE_WAIT_DURATION)
+                                                pentagoUpperRightSubgrid.postDelayed(GROW_ANIMATION_DURATION + AI_PLACE_MARBLE_WAIT_DURATION)
                                                 {
                                                     lateinit var marbleLocation: Array<Int?>
                                                     lateinit var rotationInfo: Array<Int?>
                                                     marbleLocation = pentagoGameBoard.aiPlaceMarble()
-                                                    updateEmptyCell(marbleLocation[0]!!, marbleLocation[1]!!)
-                                                    pentagoUpperRightSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                    updateSingleMarbleCell(marbleLocation[0]!!, marbleLocation[1]!!)
+                                                    winner = pentagoGameBoard.checkWinCondition(marbleLocation[0]!!, marbleLocation[1]!!)
+
+                                                    if(winner != null)
                                                     {
-                                                        pentagoGameBoard.aiRotateSubGrid()
-                                                        rotationInfo = pentagoGameBoard.aiRotateSubGrid()
-                                                        aiRotationAnimation(rotationInfo)
-                                                        gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
-                                                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                                        activateGridCellClickListeners()
+                                                        onSinglePlayerWin(winner!!)
+                                                    }
+                                                    else
+                                                    {
+                                                        pentagoUpperRightSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                        {
+                                                            rotationInfo = pentagoGameBoard.aiRotateSubGrid()
+                                                            aiRotationAnimation(rotationInfo)
+                                                        }
                                                     }
                                                 }
                                             }
@@ -566,19 +582,25 @@ class GamePlayFragment : Fragment()
                                         {
                                             if(arguments.isAgainstAiOpponent)
                                             {
-                                                pentagoUpperRightSubgrid.postDelayed(AI_PLACE_MARBLE_WAIT_DURATION)
+                                                pentagoUpperRightSubgrid.postDelayed(GROW_ANIMATION_DURATION + AI_PLACE_MARBLE_WAIT_DURATION)
                                                 {
                                                     lateinit var marbleLocation: Array<Int?>
                                                     lateinit var rotationInfo: Array<Int?>
                                                     marbleLocation = pentagoGameBoard.aiPlaceMarble()
-                                                    updateEmptyCell(marbleLocation[0]!!, marbleLocation[1]!!)
-                                                    pentagoUpperRightSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                    updateSingleMarbleCell(marbleLocation[0]!!, marbleLocation[1]!!)
+                                                    winner = pentagoGameBoard.checkWinCondition(marbleLocation[0]!!, marbleLocation[1]!!)
+
+                                                    if(winner != null)
                                                     {
-                                                        rotationInfo = pentagoGameBoard.aiRotateSubGrid()
-                                                        aiRotationAnimation(rotationInfo)
-                                                        gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
-                                                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                                        activateGridCellClickListeners()
+                                                        onSinglePlayerWin(winner!!)
+                                                    }
+                                                    else
+                                                    {
+                                                        pentagoUpperRightSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                        {
+                                                            rotationInfo = pentagoGameBoard.aiRotateSubGrid()
+                                                            aiRotationAnimation(rotationInfo)
+                                                        }
                                                     }
                                                 }
                                             }
@@ -641,20 +663,25 @@ class GamePlayFragment : Fragment()
                                         {
                                             if(arguments.isAgainstAiOpponent)
                                             {
-                                                pentagoLowerLeftSubgrid.postDelayed(AI_PLACE_MARBLE_WAIT_DURATION)
+                                                pentagoLowerLeftSubgrid.postDelayed(GROW_ANIMATION_DURATION + AI_PLACE_MARBLE_WAIT_DURATION)
                                                 {
                                                     lateinit var marbleLocation: Array<Int?>
                                                     lateinit var rotationInfo: Array<Int?>
                                                     marbleLocation = pentagoGameBoard.aiPlaceMarble()
-                                                    updateEmptyCell(marbleLocation[0]!!, marbleLocation[1]!!)
-                                                    pentagoLowerLeftSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                    updateSingleMarbleCell(marbleLocation[0]!!, marbleLocation[1]!!)
+                                                    winner = pentagoGameBoard.checkWinCondition(marbleLocation[0]!!, marbleLocation[1]!!)
+
+                                                    if(winner != null)
                                                     {
-                                                        pentagoGameBoard.aiRotateSubGrid()
-                                                        rotationInfo = pentagoGameBoard.aiRotateSubGrid()
-                                                        aiRotationAnimation(rotationInfo)
-                                                        gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
-                                                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                                        activateGridCellClickListeners()
+                                                        onSinglePlayerWin(winner!!)
+                                                    }
+                                                    else
+                                                    {
+                                                        pentagoLowerLeftSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                        {
+                                                            rotationInfo = pentagoGameBoard.aiRotateSubGrid()
+                                                            aiRotationAnimation(rotationInfo)
+                                                        }
                                                     }
                                                 }
                                             }
@@ -702,19 +729,25 @@ class GamePlayFragment : Fragment()
                                         {
                                             if(arguments.isAgainstAiOpponent)
                                             {
-                                                pentagoLowerLeftSubgrid.postDelayed(AI_PLACE_MARBLE_WAIT_DURATION)
+                                                pentagoLowerLeftSubgrid.postDelayed(GROW_ANIMATION_DURATION + AI_PLACE_MARBLE_WAIT_DURATION)
                                                 {
                                                     lateinit var marbleLocation: Array<Int?>
                                                     lateinit var rotationInfo: Array<Int?>
                                                     marbleLocation = pentagoGameBoard.aiPlaceMarble()
-                                                    updateEmptyCell(marbleLocation[0]!!, marbleLocation[1]!!)
-                                                    pentagoLowerLeftSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                    updateSingleMarbleCell(marbleLocation[0]!!, marbleLocation[1]!!)
+                                                    winner = pentagoGameBoard.checkWinCondition(marbleLocation[0]!!, marbleLocation[1]!!)
+
+                                                    if(winner != null)
                                                     {
-                                                        rotationInfo = pentagoGameBoard.aiRotateSubGrid()
-                                                        aiRotationAnimation(rotationInfo)
-                                                        gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
-                                                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                                        activateGridCellClickListeners()
+                                                        onSinglePlayerWin(winner!!)
+                                                    }
+                                                    else
+                                                    {
+                                                        pentagoLowerLeftSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                        {
+                                                            rotationInfo = pentagoGameBoard.aiRotateSubGrid()
+                                                            aiRotationAnimation(rotationInfo)
+                                                        }
                                                     }
                                                 }
                                             }
@@ -777,19 +810,25 @@ class GamePlayFragment : Fragment()
                                         {
                                             if(arguments.isAgainstAiOpponent)
                                             {
-                                                pentagoLowerRightSubgrid.postDelayed(AI_PLACE_MARBLE_WAIT_DURATION)
+                                                pentagoLowerRightSubgrid.postDelayed(GROW_ANIMATION_DURATION + AI_PLACE_MARBLE_WAIT_DURATION)
                                                 {
                                                     lateinit var marbleLocation: Array<Int?>
                                                     lateinit var rotationInfo: Array<Int?>
                                                     marbleLocation = pentagoGameBoard.aiPlaceMarble()
-                                                    updateEmptyCell(marbleLocation[0]!!, marbleLocation[1]!!)
-                                                    pentagoLowerRightSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                    updateSingleMarbleCell(marbleLocation[0]!!, marbleLocation[1]!!)
+                                                    winner = pentagoGameBoard.checkWinCondition(marbleLocation[0]!!, marbleLocation[1]!!)
+
+                                                    if(winner != null)
                                                     {
-                                                        rotationInfo = pentagoGameBoard.aiRotateSubGrid()
-                                                        aiRotationAnimation(rotationInfo)
-                                                        gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
-                                                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                                        activateGridCellClickListeners()
+                                                        onSinglePlayerWin(winner!!)
+                                                    }
+                                                    else
+                                                    {
+                                                        pentagoLowerRightSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                        {
+                                                            rotationInfo = pentagoGameBoard.aiRotateSubGrid()
+                                                            aiRotationAnimation(rotationInfo)
+                                                        }
                                                     }
                                                 }
                                             }
@@ -837,19 +876,25 @@ class GamePlayFragment : Fragment()
                                         {
                                             if(arguments.isAgainstAiOpponent)
                                             {
-                                                pentagoLowerRightSubgrid.postDelayed(AI_PLACE_MARBLE_WAIT_DURATION)
+                                                pentagoLowerRightSubgrid.postDelayed(GROW_ANIMATION_DURATION + AI_PLACE_MARBLE_WAIT_DURATION)
                                                 {
                                                     lateinit var marbleLocation: Array<Int?>
                                                     lateinit var rotationInfo: Array<Int?>
                                                     marbleLocation = pentagoGameBoard.aiPlaceMarble()
-                                                    updateEmptyCell(marbleLocation[0]!!, marbleLocation[1]!!)
-                                                    pentagoLowerRightSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                    updateSingleMarbleCell(marbleLocation[0]!!, marbleLocation[1]!!)
+                                                    winner = pentagoGameBoard.checkWinCondition(marbleLocation[0]!!, marbleLocation[1]!!)
+
+                                                    if(winner != null)
                                                     {
-                                                        rotationInfo = pentagoGameBoard.aiRotateSubGrid()
-                                                        aiRotationAnimation(rotationInfo)
-                                                        gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
-                                                        playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
-                                                        activateGridCellClickListeners()
+                                                        onSinglePlayerWin(winner!!)
+                                                    }
+                                                    else
+                                                    {
+                                                        pentagoLowerRightSubgrid.postDelayed(AI_ROTATION_WAIT_DURATION)
+                                                        {
+                                                            rotationInfo = pentagoGameBoard.aiRotateSubGrid()
+                                                            aiRotationAnimation(rotationInfo)
+                                                        }
                                                     }
                                                 }
                                             }
@@ -1741,6 +1786,9 @@ class GamePlayFragment : Fragment()
 
     private fun aiRotationAnimation(subgridRotationArray: Array<Int?>)
     {
+        var didDrawOccur = false
+        var winner: PlayerProfile?
+
         if(subgridRotationArray[1] == 0)
         {
             if(subgridRotationArray[0] == 0)
@@ -1754,6 +1802,27 @@ class GamePlayFragment : Fragment()
                         instantUndoRotationAnimation(binding.pentagoUpperLeftSubgrid, PentagoBoard.CLOCKWISE_ROTATION)
                         updateUpperLeftSubGrid()
                         resizeSubGridAnimation(binding.pentagoUpperLeftSubgrid, GROW_ANIMATION)
+                        binding.gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                        binding.playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
+
+                        didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                        if(didDrawOccur)
+                        {
+                            onDraw()
+                        }
+                        else
+                        {
+                            winner = pentagoGameBoard.checkWinConditionPostRotation()
+                            if(winner != null)
+                            {
+                                onSinglePlayerWin(winner!!)
+                            }
+                            else
+                            {
+                                activateGridCellClickListeners()
+                            }
+                        }
                     }
                 }
             }
@@ -1770,6 +1839,27 @@ class GamePlayFragment : Fragment()
                             instantUndoRotationAnimation(binding.pentagoUpperRightSubgrid, PentagoBoard.CLOCKWISE_ROTATION)
                             updateUpperRightSubGrid()
                             resizeSubGridAnimation(binding.pentagoUpperRightSubgrid, GROW_ANIMATION)
+                            binding.gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                            binding.playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
+
+                            didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                            if(didDrawOccur)
+                            {
+                                onDraw()
+                            }
+                            else
+                            {
+                                winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                if(winner != null)
+                                {
+                                    onSinglePlayerWin(winner!!)
+                                }
+                                else
+                                {
+                                    activateGridCellClickListeners()
+                                }
+                            }
                         }
                     }
                 }
@@ -1786,6 +1876,27 @@ class GamePlayFragment : Fragment()
                                 instantUndoRotationAnimation(binding.pentagoLowerLeftSubgrid, PentagoBoard.CLOCKWISE_ROTATION)
                                 updateLowerLeftSubGrid()
                                 resizeSubGridAnimation(binding.pentagoLowerLeftSubgrid, GROW_ANIMATION)
+                                binding.gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                                binding.playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
+
+                                didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                if(didDrawOccur)
+                                {
+                                    onDraw()
+                                }
+                                else
+                                {
+                                    winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                    if(winner != null)
+                                    {
+                                        onSinglePlayerWin(winner!!)
+                                    }
+                                    else
+                                    {
+                                        activateGridCellClickListeners()
+                                    }
+                                }
                             }
                         }
                     }
@@ -1802,6 +1913,27 @@ class GamePlayFragment : Fragment()
                                     instantUndoRotationAnimation(binding.pentagoLowerRightSubgrid, PentagoBoard.CLOCKWISE_ROTATION)
                                     updateLowerRightSubGrid()
                                     resizeSubGridAnimation(binding.pentagoLowerRightSubgrid, GROW_ANIMATION)
+                                    binding.gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                                    binding.playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
+
+                                    didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                    if(didDrawOccur)
+                                    {
+                                        onDraw()
+                                    }
+                                    else
+                                    {
+                                        winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                        if(winner != null)
+                                        {
+                                            onSinglePlayerWin(winner!!)
+                                        }
+                                        else
+                                        {
+                                            activateGridCellClickListeners()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1824,6 +1956,27 @@ class GamePlayFragment : Fragment()
                             instantUndoRotationAnimation(binding.pentagoUpperLeftSubgrid, PentagoBoard.ANTI_CLOCKWISE_ROTATION)
                             updateUpperLeftSubGrid()
                             resizeSubGridAnimation(binding.pentagoUpperLeftSubgrid, GROW_ANIMATION)
+                            binding.gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                            binding.playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
+
+                            didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                            if(didDrawOccur)
+                            {
+                                onDraw()
+                            }
+                            else
+                            {
+                                winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                if(winner != null)
+                                {
+                                    onSinglePlayerWin(winner!!)
+                                }
+                                else
+                                {
+                                    activateGridCellClickListeners()
+                                }
+                            }
                         }
                     }
                 }
@@ -1840,6 +1993,27 @@ class GamePlayFragment : Fragment()
                                 instantUndoRotationAnimation(binding.pentagoUpperRightSubgrid, PentagoBoard.ANTI_CLOCKWISE_ROTATION)
                                 updateUpperRightSubGrid()
                                 resizeSubGridAnimation(binding.pentagoUpperRightSubgrid, GROW_ANIMATION)
+                                binding.gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                                binding.playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
+
+                                didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                if(didDrawOccur)
+                                {
+                                    onDraw()
+                                }
+                                else
+                                {
+                                    winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                    if(winner != null)
+                                    {
+                                        onSinglePlayerWin(winner!!)
+                                    }
+                                    else
+                                    {
+                                        activateGridCellClickListeners()
+                                    }
+                                }
                             }
                         }
                     }
@@ -1856,6 +2030,27 @@ class GamePlayFragment : Fragment()
                                     instantUndoRotationAnimation(binding.pentagoLowerLeftSubgrid, PentagoBoard.ANTI_CLOCKWISE_ROTATION)
                                     updateLowerLeftSubGrid()
                                     resizeSubGridAnimation(binding.pentagoLowerLeftSubgrid, GROW_ANIMATION)
+                                    binding.gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                                    binding.playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
+
+                                    didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                    if(didDrawOccur)
+                                    {
+                                        onDraw()
+                                    }
+                                    else
+                                    {
+                                        winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                        if(winner != null)
+                                        {
+                                            onSinglePlayerWin(winner!!)
+                                        }
+                                        else
+                                        {
+                                            activateGridCellClickListeners()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1872,6 +2067,27 @@ class GamePlayFragment : Fragment()
                                         instantUndoRotationAnimation(binding.pentagoLowerRightSubgrid, PentagoBoard.ANTI_CLOCKWISE_ROTATION)
                                         updateLowerRightSubGrid()
                                         resizeSubGridAnimation(binding.pentagoLowerRightSubgrid, GROW_ANIMATION)
+                                        binding.gameStateHelpTextview.text = getString(R.string.game_state_help_place_marble)
+                                        binding.playerTurnTextview.text = pentagoGameBoard.currentTurnPlayerProfile.userName
+
+                                        didDrawOccur = pentagoGameBoard.didDrawHappen()
+
+                                        if(didDrawOccur)
+                                        {
+                                            onDraw()
+                                        }
+                                        else
+                                        {
+                                            winner = pentagoGameBoard.checkWinConditionPostRotation()
+                                            if(winner != null)
+                                            {
+                                                onSinglePlayerWin(winner!!)
+                                            }
+                                            else
+                                            {
+                                                activateGridCellClickListeners()
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -1889,7 +2105,7 @@ class GamePlayFragment : Fragment()
         const val GROW_ANIMATION = "Grow Subgrid"
         const val SHRINK_ANIMATION_DURATION: Long = 500
         const val GROW_ANIMATION_DURATION: Long = 500
-        const val AI_PLACE_MARBLE_WAIT_DURATION: Long = 1500
+        const val AI_PLACE_MARBLE_WAIT_DURATION: Long = 750
         const val AI_ROTATION_WAIT_DURATION: Long = 1000
     }
 }
