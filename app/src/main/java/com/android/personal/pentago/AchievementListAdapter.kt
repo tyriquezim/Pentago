@@ -28,6 +28,8 @@ class AchievementHolder(private val binding: AchievementItemBinding): RecyclerVi
             else
             {
                 achievementImageview.setImageResource(R.drawable.unearned_baseline_stars_24)
+                achievementCheckbox.isChecked = false
+                achievementDate.visibility = View.GONE
             }
 
             root.setOnClickListener()

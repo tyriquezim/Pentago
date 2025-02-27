@@ -290,7 +290,11 @@ class GamePlayFragment : Fragment()
     {
         for(achievement in earnedAchievements)
         {
-            Toast.makeText(context, playerProfile.userName + " earned " + achievement.achievementTitle + "!", Toast.LENGTH_LONG).show()
+            if(!achievement.hasBeenDisplayed)
+            {
+                Toast.makeText(context, playerProfile.userName + " earned " + achievement.achievementTitle + "!", Toast.LENGTH_LONG).show()
+                achievement.hasBeenDisplayed = true
+            }
         }
     }
 

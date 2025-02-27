@@ -25,4 +25,5 @@ class Achievement(var achievementTitle: String, var achievementDescription: Stri
             field = value
         }
     var date: LocalDateTime? = null
+    var hasBeenDisplayed = false
 }
